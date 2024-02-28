@@ -2,32 +2,33 @@
     import {afterUpdate, getContext, onMount} from 'svelte';
     import {is_function} from 'svelte/internal';
     import {
-        createEventContent,
         createEventClasses,
+        createEventContent,
+        height,
         toEventWithLocalDates,
         toViewWithLocalDates,
         setContent,
-        bgEvent,
+        repositionEvent,
         helperEvent,
-        ghostEvent,
         keyEnter,
         task
     } from '@event-calendar/core';
 
-    export let date;
     export let chunk;
+    export let longChunks = {};
 
-    let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor,eventColor, eventContent, eventClick,
-        eventDidMount, eventClassNames, eventMouseEnter, eventMouseLeave, slotEventOverlap, slotDuration, slotHeight, theme,
-        _view, _intlEventTime, _interaction, _iClasses, _resBgColor, _resTxtColor, _slotTimeLimits, _tasks} = getContext('state');
+    let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor, eventClick, eventColor, eventContent,
+        eventClassNames, eventDidMount, eventMouseEnter, eventMouseLeave, theme,
+        _view, _intlEventTime, _interaction, _iClasses, _resBgColor, _resTxtColor, _tasks} = getContext('state');
 
     let el;
     let event;
-    let display;
     let classes;
     let style;
     let content;
     let timeText;
+    let margin = 1;
+    let display;
     let onclick;
 
     $: event = chunk.event;
@@ -35,21 +36,12 @@
     $: {
         display = event.display;
 
-        // Style
-        let step = $slotDuration.seconds / 60;
-        let offset = $_slotTimeLimits.min.seconds / 60;
-        let start = (chunk.start - date) / 1000 / 60;
-        let end = (chunk.end - date) / 1000 / 60;
-        let top = (start - offset) / step * $slotHeight;
-        let height = (end - start) / step * $slotHeight;
-        let maxHeight = ($_slotTimeLimits.max.seconds / 60 - start) / step * $slotHeight;
+        // Class & Style
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         let txtColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
         style =
-            `top:${top}px;` +
-            `min-height:${height}px;` +
-            `height:${height}px;` +
-            `max-height:${maxHeight}px;`
+            `width:calc(${chunk.days * 100}% + ${(chunk.days - 1) * 7}px);` +
+            `margin-top:${margin}px;`
         ;
         if (bgColor) {
             style += `background-color:${bgColor};`;
@@ -57,17 +49,9 @@
         if (txtColor) {
             style += `color:${txtColor};`;
         }
-        if (!bgEvent(display) && !helperEvent(display) || ghostEvent(display)) {
-            style +=
-                `z-index:${chunk.column + 1};` +
-                `left:${100 / chunk.group.columns.length * chunk.column}%;` +
-                `width:${100 / chunk.group.columns.length * ($slotEventOverlap ? 0.5 * (1 + chunk.group.columns.length - chunk.column) : 1)}%;`
-            ;
-        }
 
-        // Class
         classes = [
-            bgEvent(display) ? $theme.bgEvent : $theme.event,
+            $theme.event,
             ...$_iClasses([], event),
             ...createEventClasses($eventClassNames, event, $_view)
         ].join(' ');
@@ -105,8 +89,15 @@
             : undefined;
     }
 
+    export function reposition() {
+        if (!el) {
+            return;
+        }
+        margin = repositionEvent(chunk, longChunks, height(el));
+    }
+
     // Onclick handler
-    $: onclick = !bgEvent(display) && createHandler($eventClick, display);
+    $: onclick = createHandler($eventClick, display);
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -120,7 +111,7 @@
     on:keydown={onclick && keyEnter(onclick)}
     on:mouseenter={createHandler($eventMouseEnter, display)}
     on:mouseleave={createHandler($eventMouseLeave, display)}
-    on:pointerdown={!bgEvent(display) && !helperEvent(display) && createDragHandler($_interaction)}
+    on:pointerdown={!helperEvent(display) && createDragHandler($_interaction)}
 >
     <div class="{$theme.eventBody}" use:setContent={content}></div>
     <svelte:component

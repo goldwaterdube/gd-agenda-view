@@ -108,6 +108,23 @@ export default [
 			})
 		],
 	},
+		{
+		input: 'packages/agenda/src/index.js',
+		output: {
+			format: 'es',
+			file: 'packages/agenda/index.js'
+		},
+		external: ['@event-calendar/core', 'svelte', 'svelte/internal', 'svelte/store'],
+		plugins: [
+			svelte({
+				compilerOptions: {
+					dev: !production,
+					discloseVersion: false,
+					css: false
+				}
+			})
+		],
+	},
 	{
 		input: 'packages/resource-time-grid/src/index.js',
 		output: {

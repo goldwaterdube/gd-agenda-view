@@ -27,7 +27,7 @@ export function times(state) {
             while (date < end) {
                 times.push([
                     toISOString(date),
-                    times.length && (i || large) ? $_intlSlotLabel.format(date) : ''
+                    $_intlSlotLabel.format(date)
                 ]);
                 addDuration(date, $slotDuration);
                 i = 1 - i;

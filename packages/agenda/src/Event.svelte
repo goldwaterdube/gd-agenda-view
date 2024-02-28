@@ -13,6 +13,7 @@
         keyEnter,
         task
     } from '@event-calendar/core';
+  import { fade } from 'svelte/transition';
 
     export let date;
     export let chunk;
@@ -44,7 +45,8 @@
         let height = (end - start) / step * $slotHeight;
         let maxHeight = ($_slotTimeLimits.max.seconds / 60 - start) / step * $slotHeight;
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
-        let txtColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
+        let txtColor = $slotEventOverlap ? bgColor : event.textColor || $_resTxtColor(event) || $eventTextColor;
+        let over = event.over || false
         style =
             `top:${top}px;` +
             `min-height:${height}px;` +
@@ -52,7 +54,7 @@
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
-            style += `background-color:${bgColor};`;
+            style += ($slotEventOverlap ? `border: 3px solid ${bgColor};` : `background-color:${bgColor};`);
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -60,14 +62,26 @@
         if (!bgEvent(display) && !helperEvent(display) || ghostEvent(display)) {
             style +=
                 `z-index:${chunk.column + 1};` +
-                `left:${100 / chunk.group.columns.length * chunk.column}%;` +
-                `width:${100 / chunk.group.columns.length * ($slotEventOverlap ? 0.5 * (1 + chunk.group.columns.length - chunk.column) : 1)}%;`
+                `left:${$slotEventOverlap ? 0 : 100 / chunk.group.columns.length * chunk.column}%;` +
+                `width:${$slotEventOverlap ? 100 : 100 / chunk.group.columns.length * 0.5 * (1 + chunk.group.columns.length - chunk.column)}%;`
             ;
+        }
+        if (over) {
+            style += 
+                ($slotEventOverlap ? 
+                    `background: ` + 
+                    `linear-gradient(to top right, transparent calc(50% - 1px), ${bgColor} , transparent calc(50% + 1px)), ` + 
+                    `linear-gradient(to top left, transparent calc(50% - 1px), ${bgColor} , transparent calc(50% + 1px))`
+                    : 
+                    `background: ` + 
+                    `linear-gradient(to top right, transparent calc(50% - 1px), white, transparent calc(50% + 1px)), ` + 
+                    `linear-gradient(to top left, ${bgColor} calc(50% - 1px), white , ${bgColor} calc(50% + 1px))`)
         }
 
         // Class
         classes = [
             bgEvent(display) ? $theme.bgEvent : $theme.event,
+            // over ? 'ec-event-over' : '',
             ...$_iClasses([], event),
             ...createEventClasses($eventClassNames, event, $_view)
         ].join(' ');

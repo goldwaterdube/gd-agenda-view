@@ -20,6 +20,7 @@
     "@event-calendar/list": "~2.6.1",
     "@event-calendar/resource-time-grid": "~2.6.1",
     "@event-calendar/time-grid": "~2.6.1",
+    "@event-calendar/agenda": "~2.6.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
