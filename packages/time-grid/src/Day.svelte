@@ -8,7 +8,8 @@
         eventIntersects,
         floor,
         rect,
-        setPayload
+        setPayload,
+        setContent
     } from '@event-calendar/core';
     import {groupEventChunks} from './utils';
     import Event from './Event.svelte';
@@ -18,7 +19,7 @@
     export let resource = undefined;
 
     let {_events, _iEvents, highlightedDates, nowIndicator, slotDuration, slotHeight, theme,
-        _interaction, _today, _slotTimeLimits} = getContext('state');
+        _interaction, _today, _slotTimeLimits, _times} = getContext('state');
 
     let el;
     let chunks, bgChunks, iChunks = [];
@@ -78,6 +79,12 @@
     }
 </script>
 
+<div class="ec-day-column" >
+<div class="{$theme.sidebar}">
+    {#each $_times as time}
+        <time class="{$theme.time}" datetime="{time[0]}" use:setContent={time[1]}></time>
+    {/each}
+</div>
 <div
     bind:this={el}
     class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}{isToday ? ' ' + $theme.today : ''}{highlight ? ' ' + $theme.highlight : ''}"
@@ -110,4 +117,5 @@
             <NowIndicator />
         {/if}
     </div>
+</div>
 </div>

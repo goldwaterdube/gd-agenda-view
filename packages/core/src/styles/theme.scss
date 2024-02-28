@@ -83,6 +83,10 @@
   /* Now Indicator */
   --ec-now-indicator-color: #ea4335;
 
+  /* Hour marker colors */
+  --ec-time-hour-marker-color: rgba(0, 139, 139, 0.6); 
+  --ec-time-minute-marker-color: rgba(95, 158, 160, 0.6); 
+
   .ec-dark & {
     @include dark-theme;
   }

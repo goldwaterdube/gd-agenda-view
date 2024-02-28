@@ -9,12 +9,13 @@
     $: allDayText = createAllDayContent($allDayContent);
 </script>
 
-<div class="{$theme.sidebar}">
+<!-- Commenting out the main sidebar for now -->
+<!-- <div class="{$theme.sidebar}">
     <div class="{$theme.sidebarTitle}" use:setContent={allDayText}></div>
     {#each $_times as time}
         <time class="{$theme.time}" datetime="{time[0]}" use:setContent={time[1]}></time>
     {/each}
-</div>
+</div> -->
 <div class="{$theme.days}" role="row">
     <div class="{$theme.lines}"><slot name="lines"></slot></div>
     <slot></slot>
