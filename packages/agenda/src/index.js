@@ -18,14 +18,14 @@ export default {
 			component: View,
 			dayHeaderFormat: {weekday: 'long'},
 			duration: {days: 1},
-			theme: themeView('ec-time-grid ec-day-view'),
+			theme: themeView('ec-agenda ec-day-view'),
 			titleFormat: {year: 'numeric', month: 'long', day: 'numeric'}
 		};
 		options.views.agendaWeek = {
 			buttonText: btnTextWeek,
 			component: View,
 			duration: {weeks: 1},
-			theme: themeView('ec-time-grid ec-week-view')
+			theme: themeView('ec-agenda ec-week-view')
 		};
 	},
 

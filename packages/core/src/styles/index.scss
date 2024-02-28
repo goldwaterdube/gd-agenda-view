@@ -183,6 +183,130 @@
   }
 }
 
+/* Agenda theme */
+.ec-agenda {
+  
+  .ec-sidebar {
+    position: absolute;
+    padding: 0;
+
+    // Make every full hour bold
+    .ec-time:nth-child(12n+1) {
+      font-weight: 900;
+      color: var(--ec-time-hour-marker-color);
+      padding: 0 4px 0 4px;
+    }
+  }
+
+  .ec-day {
+    border-style: none solid none none;
+  }
+
+  .ec-event {
+    background-color: none;
+    border-radius: none;
+  }
+
+  
+  .ec-time,
+  .ec-line {
+    height: 12px;
+  }
+
+  .ec-time {
+    line-height: 12px;
+    text-align: center;
+    font-size: 0.6em;
+    font-family: sans-serif;
+    color: var(--ec-time-minute-marker-color);
+    overflow: hidden;
+
+    &:not(:first-child)::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      border-bottom: 1px solid var(--ec-border-color);
+      pointer-events: none;
+    }
+
+    .ec-header &,
+    .ec-all-day & {
+      visibility: hidden;
+      overflow-y: hidden;
+      height: 0;
+    }
+  }
+
+  .ec-lines {
+    width: 0;
+  }
+
+  .ec-line:not(:first-child):after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* Make every third line have a solid border */
+  .ec-body:not(.ec-compact) .ec-line:nth-child(3n+1):after {
+    border-bottom: 1px solid var(--ec-border-color);
+  }
+}
+
+/* Original themes */
+.ec-day-grid,
+.ec-time-grid,
+.ec-list {
+
+  .ec-event {
+    background-color: var(--ec-event-bg-color);
+    border-radius: 3px;
+  }
+
+  .ec-sidebar {
+    padding: 0 4px 0 8px;
+  }
+
+  .ec-time,
+  .ec-line {
+    height: 24px;
+  }
+
+  .ec-time {
+    line-height: 24px;
+    top: -12px;
+    text-align: right;
+  
+    .ec-header &,
+    .ec-all-day & {
+      visibility: hidden;
+      overflow-y: hidden;
+      height: 0;
+    }
+  }
+  
+  .ec-lines {
+    width: 8px;
+  }
+
+  .ec-line:not(:first-child):after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+  }
+  
+  .ec-line:not(:first-child):after {
+    border-bottom: 1px solid var(--ec-border-color);
+  }
+
+  .ec-body:not(.ec-compact) .ec-line:nth-child(even):after {
+    border-bottom-style: dotted;
+  }
+}
+
 /* Body */
 .ec-body {
   position: relative;
@@ -199,21 +323,12 @@
 }
 
 .ec-sidebar {
-  position: absolute;
   flex: 0 0 auto;
   width: auto;
   max-width: 100%;
-  // padding: 0 4px 0 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  // Make every full hour bold
-  .ec-time:nth-child(12n+1) {
-    font-weight: 900;
-    color: var(--ec-time-hour-marker-color);
-    padding: 0 4px 0 4px;
-  }
 }
 
 .ec-sidebar-title {
@@ -275,7 +390,7 @@
 }
 
 .ec-day {
-  border-style: none solid none none;
+  border-style: none none none solid;
 
   &.ec-today {
     background-color: var(--ec-today-bg-color);
@@ -355,6 +470,7 @@
 .ec-events {
   margin: 0 6px 0 0;
 
+  .ec-agenda &,
   .ec-time-grid &,
   &.ec-preview {
     position: relative;
@@ -367,8 +483,6 @@
   color: var(--ec-event-text-color);
   box-sizing: border-box;
   box-shadow: 0 0 1px 0 var(--ec-border-color);
-  // background-color: var(--ec-event-bg-color);
-  // border-radius: 3px;
   font-size: .85em;
   line-height: 1.5;
   z-index: 1;  // put it above the pointer event (for multi-day events in month view)
@@ -378,6 +492,7 @@
     position: relative;
   }
 
+  .ec-agenda .ec-body &,
   .ec-time-grid .ec-body & {
     position: absolute;
   }
@@ -412,9 +527,6 @@
     }
   }
 }
-
-//  .ec-event-over {
-// }
 
 .ec-event-body {
   display: flex;
@@ -458,6 +570,7 @@
     text-overflow: ellipsis;
   }
 
+  .ec-agenda .ec-body &,
   .ec-time-grid .ec-body & {
     position: sticky;
     top: 0;
@@ -491,29 +604,9 @@
   z-index: 1;
 }
 
-.ec-time,
-.ec-line {
-  height: 12px;
-}
-
 .ec-time {
   position: relative;
-  line-height: 12px;
-  text-align: center;
   white-space: nowrap;
-  font-size: 0.6em;
-  font-family: sans-serif;
-  color: var(--ec-time-minute-marker-color);
-  overflow: hidden;
-
-  &:not(:first-child)::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    border-bottom: 1px solid var(--ec-border-color);
-    pointer-events: none;
-  }
 
   .ec-header &,
   .ec-all-day & {
@@ -523,9 +616,6 @@
   }
 }
 
-.ec-lines {
-  width: 0;
-}
 
 .ec-line:not(:first-child):after {
   content: '';
@@ -534,10 +624,6 @@
   pointer-events: none;
 }
 
-/* Make every third line have a solid border */
-.ec-body:not(.ec-compact) .ec-line:nth-child(3n+1):after {
-  border-bottom: 1px solid var(--ec-border-color);
-}
 
 .ec-popup {
   position: absolute;
@@ -614,6 +700,7 @@
     cursor: ew-resize;
   }
 
+  .ec-agenda .ec-body &,
   .ec-time-grid .ec-body & {
     left: 0;
     right: 0;
