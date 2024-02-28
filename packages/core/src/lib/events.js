@@ -14,6 +14,7 @@ export function createEvents(input) {
         allDay: event.allDay ?? (noTimePart(event.start) && noTimePart(event.end)),
         start: createDate(event.start),
         end: createDate(event.end),
+        over: event.over || false,
         title: event.title || '',
         titleHTML: event.titleHTML || '',
         editable: event.editable,
@@ -22,7 +23,7 @@ export function createEvents(input) {
         display: event.display || 'auto',
         extendedProps: event.extendedProps || {},
         backgroundColor: event.backgroundColor || event.color,
-        textColor: event.textColor
+        textColor: event.textColor,
     }));
 }
 
