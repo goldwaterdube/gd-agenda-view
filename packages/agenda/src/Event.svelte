@@ -54,7 +54,7 @@
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
-            style += ($slotEventOverlap ? `border: 3px solid ${bgColor};` : `background-color:${bgColor};`);
+            style += ($slotEventOverlap ? `border: 2px solid ${bgColor};` : `background-color:${bgColor};`);
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -70,8 +70,8 @@
             style += 
                 ($slotEventOverlap ? 
                     `background: ` + 
-                    `linear-gradient(to top right, transparent calc(50% - 1px), ${bgColor} , transparent calc(50% + 1px)), ` + 
-                    `linear-gradient(to top left, transparent calc(50% - 1px), ${bgColor} , transparent calc(50% + 1px))`
+                    `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)), ` + 
+                    `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px))`
                     : 
                     `background: ` + 
                     `linear-gradient(to top right, transparent calc(50% - 1px), white, transparent calc(50% + 1px)), ` + 

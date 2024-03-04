@@ -80,42 +80,42 @@
 </script>
 
 <div class="ec-day-column" >
-<div class="{$theme.sidebar}">
-    {#each $_times as time}
-        <time class="{$theme.time}" datetime="{time[0]}" use:setContent={time[1]}></time>
-    {/each}
-</div>
-<div
-    bind:this={el}
-    class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}{isToday ? ' ' + $theme.today : ''}{highlight ? ' ' + $theme.highlight : ''}"
-    role="cell"
-    on:pointerenter={createPointerEnterHandler($_interaction)}
-    on:pointerleave={$_interaction.pointer?.leave}
-    on:pointerdown={$_interaction.action?.select}
->
-    <div class="{$theme.bgEvents}">
-        {#each bgChunks as chunk (chunk.event)}
-            <Event {date} {chunk}/>
+    <div class="{$theme.sidebar}">
+        {#each $_times as time}
+            <time class="{$theme.time}" datetime="{time[0]}" use:setContent={time[1]}></time>
         {/each}
     </div>
-    <div class="{$theme.events}">
-        <!-- Pointer -->
-        {#if iChunks[1]}
-            <Event {date} chunk={iChunks[1]}/>
-        {/if}
-        {#each chunks as chunk (chunk.event)}
-            <Event {date} {chunk}/>
-        {/each}
-        <!-- Drag, Resize & Select -->
-        {#if iChunks[0] && !iChunks[0].event.allDay}
-            <Event {date} chunk={iChunks[0]}/>
-        {/if}
+    <div
+        bind:this={el}
+        class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}{isToday ? ' ' + $theme.today : ''}{highlight ? ' ' + $theme.highlight : ''}"
+        role="cell"
+        on:pointerenter={createPointerEnterHandler($_interaction)}
+        on:pointerleave={$_interaction.pointer?.leave}
+        on:pointerdown={$_interaction.action?.select}
+    >
+        <div class="{$theme.bgEvents}">
+            {#each bgChunks as chunk (chunk.event)}
+                <Event {date} {chunk}/>
+            {/each}
+        </div>
+        <div class="{$theme.events}">
+            <!-- Pointer -->
+            {#if iChunks[1]}
+                <Event {date} chunk={iChunks[1]}/>
+            {/if}
+            {#each chunks as chunk (chunk.event)}
+                <Event {date} {chunk}/>
+            {/each}
+            <!-- Drag, Resize & Select -->
+            {#if iChunks[0] && !iChunks[0].event.allDay}
+                <Event {date} chunk={iChunks[0]}/>
+            {/if}
+        </div>
+        <div class="{$theme.extra}">
+            <!-- Now indicator -->
+            {#if $nowIndicator && isToday}
+                <NowIndicator />
+            {/if}
+        </div>
     </div>
-    <div class="{$theme.extra}">
-        <!-- Now indicator -->
-        {#if $nowIndicator && isToday}
-            <NowIndicator />
-        {/if}
-    </div>
-</div>
 </div>

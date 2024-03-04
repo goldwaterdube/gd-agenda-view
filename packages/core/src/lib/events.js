@@ -16,6 +16,13 @@ export function createEvents(input) {
         end: createDate(event.end),
         over: event.over || false,
         title: event.title || '',
+        details: event.details || '',
+        type: event.type || '', // court or consult
+        lawyer: event.lawyer || '', // take name, display initials
+        location: event.location || '', // rm, teams, etc
+        district: event.district || '', // if court
+        motion: event.motion || '', // if court
+        initialFee: event.initialFee || '', // value === initial consult
         titleHTML: event.titleHTML || '',
         editable: event.editable,
         startEditable: event.startEditable,
@@ -76,15 +83,37 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 domNodes = [createTimeElement(timeText, chunk, theme)];
                 break;
             default:
-                domNodes = [
-                    ...chunk.event.allDay ? [] : [createTimeElement(timeText, chunk, theme)],
-                    createElement('h4', theme.eventTitle, chunk.event.title)
-                ];
+                const timeElement = chunk.event.allDay ? [] : createTimeElement(formatTime(chunk.event.start), chunk, theme)
+                const titleElement = createElement('h4', theme.eventTitle, chunk.event.title)
+                const detailsElement = createElement('h4', theme.eventTitle, chunk.event.details)
+                const typeElement = createElement('h4', theme.eventTitle, chunk.event.type)
+                const lawyerElement = createElement('h4', theme.eventTitle, chunk.event.lawyer)
+                const locationElement = createElement('h4', theme.eventTitle, chunk.event.location)
+                const districtElement = createElement('h4', theme.eventTitle, chunk.event.district)
+                const motionElement = createElement('h4', theme.eventTitle, chunk.event.motion)
+                const initialFeeElement = createElement('h4', theme.eventTitle, chunk.event.initialFee)
+
+                const eventHeader = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement] });
+                const eventDetails = createElement('div', 'ec-event-details', { domNodes: [detailsElement] });
+                const eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, lawyerElement] });
+
+                domNodes = [eventHeader, eventDetails, eventFooter];
+                break;
         }
-        content = {domNodes};
+        content = { domNodes: flattenNested(domNodes) };
     }
 
     return [timeText, content];
+}
+
+function formatTime(date) {
+    const hours = date.getUTCHours().toString();
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }  
+
+function flattenNested(arr) {
+    return arr.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenNested(val)) : acc.concat(val), []);
 }
 
 function createTimeElement(timeText, chunk, theme) {

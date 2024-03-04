@@ -202,9 +202,78 @@
     border-style: none solid none none;
   }
 
+  @function color-with-opacity($color, $opacity) {
+    @return rgba($color, $opacity);
+  }
+
   .ec-event {
+    position: relative;
+    display: flex;
     background-color: none;
     border-radius: none;
+    padding: 0;
+    color: var(--ec-event-text-color);
+    box-sizing: border-box;
+    box-shadow: 0 0 1px 0 var(--ec-border-color);
+    font-size: .6em;
+    line-height: 12px;
+    z-index: 1;  // put it above the pointer event (for multi-day events in month view)
+
+    .ec-event-body {
+      display: flex;
+      text-align: center;
+      font-weight: 900;      
+      font-family: sans-serif;
+
+      .ec-event-header {
+        display: flex;
+        justify-content: space-between;
+
+        .ec-event-time {
+          position: absolute;
+          color: inherit;
+          padding: 0 4px 1px 2.5px;
+          line-height: 8px;
+          width: 23px;
+          text-align: center;
+          border-bottom: 2px solid currentColor;
+          border-right: 2px solid currentColor;
+          text-shadow: 
+          -1px -0px 0 #fff,  
+          1px -0px 0 #fff,
+          -1px 0px 0 #fff,
+          1px 0px 0 #fff;
+        }
+
+        .ec-event-title {
+          width: 100%;
+          margin-left: 32px;
+          text-align: center;
+          line-height: 12px;
+        }
+      }
+
+      .ec-event-details {
+        border: none;
+      }
+
+      .ec-event-footer {
+        display: flex;
+        justify-content: space-around;
+        border-bottom: 2px solid currentColor;
+
+          & > h4 {
+            line-height: 10px;
+            width: 100%;
+          }
+          
+          h4:nth-child(2) {
+            box-sizing: border-box;
+            outline: 2px solid currentColor;
+          }
+      
+      }
+    }
   }
 
   
@@ -261,8 +330,16 @@
 .ec-list {
 
   .ec-event {
+    display: flex;
     background-color: var(--ec-event-bg-color);
     border-radius: 3px;
+    padding: 2px;
+    color: var(--ec-event-text-color);
+    box-sizing: border-box;
+    box-shadow: 0 0 1px 0 var(--ec-border-color);
+    font-size: .85em;
+    line-height: 1.5;
+    z-index: 1;  // put it above the pointer event (for multi-day events in month view)
   }
 
   .ec-sidebar {
@@ -304,6 +381,19 @@
 
   .ec-body:not(.ec-compact) .ec-line:nth-child(even):after {
     border-bottom-style: dotted;
+  }
+
+  .ec-event-time {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 0 1px 0;
+    flex-shrink: 0;
+  
+    .ec-day-grid & {
+      margin: 0 3px 0 0;
+      max-width: 100%;
+      text-overflow: ellipsis;
+    }
   }
 }
 
@@ -478,14 +568,6 @@
 }
 
 .ec-event {
-  display: flex;
-  padding: 2px;
-  color: var(--ec-event-text-color);
-  box-sizing: border-box;
-  box-shadow: 0 0 1px 0 var(--ec-border-color);
-  font-size: .85em;
-  line-height: 1.5;
-  z-index: 1;  // put it above the pointer event (for multi-day events in month view)
 
   .ec-day-grid &,
   .ec-all-day & {
@@ -543,19 +625,6 @@
   width: 4px;
   border-radius: 2px;
   margin-right: 8px;
-}
-
-.ec-event-time {
-  overflow: hidden;
-  white-space: nowrap;
-  margin: 0 0 1px 0;
-  flex-shrink: 0;
-
-  .ec-day-grid & {
-    margin: 0 3px 0 0;
-    max-width: 100%;
-    text-overflow: ellipsis;
-  }
 }
 
 .ec-event-title {
