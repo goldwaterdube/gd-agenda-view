@@ -12,7 +12,8 @@
         ghostEvent,
         keyEnter,
         task
-    } from '@event-calendar/core';
+    } from './../../core/'; // don't point to the node package for dev
+    // } from '@event-calendar/core';
   import { fade } from 'svelte/transition';
 
     export let date;
@@ -45,7 +46,7 @@
         let height = (end - start) / step * $slotHeight;
         let maxHeight = ($_slotTimeLimits.max.seconds / 60 - start) / step * $slotHeight;
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
-        let txtColor = $slotEventOverlap ? bgColor : event.textColor || $_resTxtColor(event) || $eventTextColor;
+        let txtColor = bgColor
         let over = event.over || false
         style =
             `top:${top}px;` +
@@ -54,7 +55,7 @@
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
-            style += ($slotEventOverlap ? `border: 2px solid ${bgColor};` : `background-color:${bgColor};`);
+            style += `border: 2px solid ${bgColor};`;
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -67,15 +68,9 @@
             ;
         }
         if (over) {
-            style += 
-                ($slotEventOverlap ? 
-                    `background: ` + 
-                    `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)), ` + 
-                    `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px))`
-                    : 
-                    `background: ` + 
-                    `linear-gradient(to top right, transparent calc(50% - 1px), white, transparent calc(50% + 1px)), ` + 
-                    `linear-gradient(to top left, ${bgColor} calc(50% - 1px), white , ${bgColor} calc(50% + 1px))`)
+            style += `background: ` + 
+                     `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)), ` + 
+                     `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px))`
         }
 
         // Class

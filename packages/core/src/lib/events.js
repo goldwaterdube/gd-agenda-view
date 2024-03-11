@@ -83,24 +83,25 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 domNodes = [createTimeElement(timeText, chunk, theme)];
                 break;
             default:
-                const timeElement = chunk.event.allDay ? [] : createTimeElement(formatTime(chunk.event.start), chunk, theme)
-                const titleElement = createElement('h4', theme.eventTitle, chunk.event.title)
-                const detailsElement = createElement('h4', theme.eventTitle, chunk.event.details)
-                const typeElement = createElement('h4', theme.eventTitle, chunk.event.type)
-                const lawyerElement = createElement('h4', theme.eventTitle, chunk.event.lawyer)
-                const locationElement = createElement('h4', theme.eventTitle, chunk.event.location)
-                const districtElement = createElement('h4', theme.eventTitle, chunk.event.district)
-                const motionElement = createElement('h4', theme.eventTitle, chunk.event.motion)
-                const initialFeeElement = createElement('h4', theme.eventTitle, chunk.event.initialFee)
+                const e = chunk.event
+                const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : ''
+                const titleElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventTitle, e.title) : ''
+                const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventTitle, e.details) : ''
+                const typeElement = e.hasOwnProperty('type') ? createElement('h4', theme.eventTitle, e.type) : ''
+                const lawyerElement = e.hasOwnProperty('lawyer') ? createElement('h4', theme.eventTitle, e.lawyer) : ''
+                const locationElement = e.hasOwnProperty('location') ? createElement('h4', theme.eventTitle, e.location) : ''
+                const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventTitle, e.district) : ''
+                const motionElement = e.hasOwnProperty('motion') ? createElement('h4', theme.eventTitle, e.motion) : ''
+                const initialFeeElement = e.hasOwnProperty('initialFee') ? createElement('h4', theme.eventTitle, e.initialFee) : ''
 
                 const eventHeader = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement] });
                 const eventDetails = createElement('div', 'ec-event-details', { domNodes: [detailsElement] });
                 const eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, lawyerElement] });
 
-                domNodes = [eventHeader, eventDetails, eventFooter];
+                domNodes = [...chunk.event.allDay ? [] : [eventHeader, eventDetails, eventFooter]]
                 break;
         }
-        content = { domNodes: flattenNested(domNodes) };
+        content = {domNodes};
     }
 
     return [timeText, content];
