@@ -87,7 +87,6 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : ''
                 const titleElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventTitle, e.title) : ''
                 const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventTitle, e.details) : ''
-                const typeElement = e.hasOwnProperty('type') ? createElement('h4', theme.eventTitle, e.type) : ''
                 const lawyerElement = e.hasOwnProperty('lawyer') ? createElement('h4', theme.eventTitle, e.lawyer) : ''
                 const locationElement = e.hasOwnProperty('location') ? createElement('h4', theme.eventTitle, e.location) : ''
                 const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventTitle, e.district) : ''
@@ -96,7 +95,15 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
 
                 const eventHeader = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement] });
                 const eventDetails = createElement('div', 'ec-event-details', { domNodes: [detailsElement] });
-                const eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, lawyerElement] });
+                let eventFooter
+                
+                if (e.type === 'consult' && e.initialFee) {
+                    eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, initialFeeElement] });
+                } else if (e.type === 'consult') {
+                    eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, lawyerElement] });
+                } else { // court motion layout is default
+                    eventFooter = createElement('div', 'ec-event-footer', { domNodes: [motionElement, locationElement] });
+                }
 
                 domNodes = [...chunk.event.allDay ? [] : [eventHeader, eventDetails, eventFooter]]
                 break;
@@ -112,10 +119,6 @@ function formatTime(date) {
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   }  
-
-function flattenNested(arr) {
-    return arr.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenNested(val)) : acc.concat(val), []);
-}
 
 function createTimeElement(timeText, chunk, theme) {
     return createElement(
