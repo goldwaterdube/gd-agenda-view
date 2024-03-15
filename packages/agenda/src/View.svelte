@@ -9,25 +9,25 @@
     let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme} = getContext('state');
 
     export function changeZoom(direction) {
-    const calendar = document.querySelector('.ec-body');
-    const currentZoom = parseFloat(window.getComputedStyle(calendar).getPropertyValue('zoom'));
-    const zoomLevelMod = 0.1
+        const calendar = document.querySelector('.ec-body');
+        const currentZoom = parseFloat(window.getComputedStyle(calendar).getPropertyValue('zoom'));
+        const zoomLevelMod = 0.1
+        let newZoom;
+        
+        switch (direction) {
+            case 'increase':
+                newZoom = currentZoom + zoomLevelMod;
+                break;
+            case 'decrease':
+                newZoom = Math.max(zoomLevelMod, currentZoom - zoomLevelMod);
+                break;
+            default:
+                newZoom = 1; // Reset zoom to default (100%)
+                break;
+        }
 
-    let newZoom;
-    switch (direction) {
-        case 'increase':
-            newZoom = currentZoom + zoomLevelMod;
-            break;
-        case 'decrease':
-            newZoom = Math.max(zoomLevelMod, currentZoom - zoomLevelMod);
-            break;
-        default:
-            newZoom = 1; // Reset zoom to default (100%)
-            break;
+        calendar.style.zoom = newZoom;
     }
-
-    calendar.style.zoom = newZoom;
-}
 
 
 </script>

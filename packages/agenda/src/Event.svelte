@@ -63,8 +63,8 @@
         if (!bgEvent(display) && !helperEvent(display) || ghostEvent(display)) {
             style +=
                 `z-index:${chunk.column + 1};` +
-                `left:${$slotEventOverlap ? 0 : 100 / chunk.group.columns.length * chunk.column}%;` +
-                `width:${$slotEventOverlap ? 100 : 100 / chunk.group.columns.length * 0.5 * (1 + chunk.group.columns.length - chunk.column)}%;`
+                `left:${$slotEventOverlap ? 0 : 0 }%;` +
+                `width:${$slotEventOverlap ? 100 : 100 }%;`
             ;
         }
         if (over) {

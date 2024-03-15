@@ -94,18 +94,22 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const initialFeeElement = e.hasOwnProperty('initialFee') ? createElement('h4', theme.eventTitle, e.initialFee) : ''
 
                 const eventHeader = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement] });
-                const eventDetails = createElement('div', 'ec-event-details', { domNodes: [detailsElement] });
-                let eventFooter
+                let eventDetails, eventFooter
                 
                 if (e.type === 'consult' && e.initialFee) {
                     eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, initialFeeElement] });
                 } else if (e.type === 'consult') {
                     eventFooter = createElement('div', 'ec-event-footer', { domNodes: [locationElement, lawyerElement] });
                 } else { // court motion layout is default
+                    eventDetails = createElement('div', 'ec-event-details', { domNodes: [detailsElement] });
                     eventFooter = createElement('div', 'ec-event-footer', { domNodes: [motionElement, locationElement] });
                 }
 
-                domNodes = [...chunk.event.allDay ? [] : [eventHeader, eventDetails, eventFooter]]
+                domNodes = [...chunk.event.allDay ? [] : 
+                    eventDetails ?
+                    [eventHeader, eventDetails, eventFooter] :
+                    [eventHeader, eventFooter]
+                ]
                 break;
         }
         content = {domNodes};
