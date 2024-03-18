@@ -49,7 +49,7 @@
         let txtColor = bgColor
         let over = event.over || false
         style =
-            `top:${top}px;` +
+            `top:${top + chunk.column * $slotHeight}px;` +
             `min-height:${height}px;` +
             `height:${height}px;` +
             `max-height:${maxHeight}px;`

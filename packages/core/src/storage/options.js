@@ -78,6 +78,7 @@ export function createOptions(plugins) {
             eventBody: 'ec-event-body',
             eventTime: 'ec-event-time',
             eventTitle: 'ec-event-title',
+            eventLocation: 'ec-event-location',
             events: 'ec-events',
             extra: 'ec-extra',
             handle: 'ec-handle',

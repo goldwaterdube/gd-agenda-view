@@ -11,33 +11,23 @@ export function groupEventChunks(chunks) {
     // Group
     let group = {
         columns: [],
-        end: chunks[0].end
+        end: chunks[0].start.getTime() + (5 * 60000)
     };
     for (let chunk of chunks) {
         let c = 0;
         if (chunk.start < group.end) {
-            for (; c < group.columns.length; ++c) {
-                if (group.columns[c][group.columns[c].length - 1].end <= chunk.start) {
-                    break;
-                }
-            }
-            if (chunk.end > group.end) {
-                group.end = chunk.end;
-            }
+            group.end = group.end + (5 * 60000);
         } else {
             group = {
                 columns: [],
-                end: chunk.end
+                end: chunk.start.getTime() + (5 * 60000)
             };
         }
 
-        if (group.columns.length < c + 1) {
-            group.columns.push([]);
-        }
-        group.columns[c].push(chunk);
+        group.columns.push(chunk);
 
         chunk.group = group;
-        chunk.column = c;
+        chunk.column = group.columns.length - 1;
     }
 }
 

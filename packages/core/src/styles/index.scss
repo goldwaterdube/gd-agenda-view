@@ -246,10 +246,22 @@
         }
 
         .ec-event-title {
+          position: absolute;
+          top: -1.5px;
           width: 100%;
-          margin-left: 32px;
-          text-align: center;
+          margin-left: 36px;
+          text-align: left;
           line-height: 12px;
+        }
+
+        .ec-event-location {
+          position: absolute;
+          top: -1.5px;
+          right: 1px;
+          width: 100%;
+          text-align: right;
+          line-height: 12px;
+          margin: 0;
         }
       }
 
