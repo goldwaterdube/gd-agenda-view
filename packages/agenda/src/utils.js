@@ -11,13 +11,15 @@ export function groupEventChunks(chunks) {
     // Group
     let group = {
         columns: [],
-        end: chunks[0].start.getTime() + (5 * 60000)
+        end: chunks[0].start.getTime()
     };
     for (let chunk of chunks) {
-        let c = 0;
+        let shift = 0;
         if (chunk.start < group.end) {
+            shift = (group.end - chunk.start ) / (5 * 60000)
             group.end = group.end + (5 * 60000);
         } else {
+            shift = 0
             group = {
                 columns: [],
                 end: chunk.start.getTime() + (5 * 60000)
@@ -27,7 +29,7 @@ export function groupEventChunks(chunks) {
         group.columns.push(chunk);
 
         chunk.group = group;
-        chunk.column = group.columns.length - 1;
+        chunk.column = shift;
     }
 }
 
