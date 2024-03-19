@@ -86,10 +86,10 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const e = chunk.event;
                 const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : '';
                 const titleElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventTitle, e.title) : '';
-                const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventTitle, e.details) : '';
+                const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventDetails, e.details) : '';
                 const lawyerElement = e.hasOwnProperty('lawyer') ? createElement('h4', theme.eventTitle, e.lawyer) : '';
                 const locationElement = e.hasOwnProperty('location') ? createElement('h4', theme.eventTitle, e.location) : '';
-                const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventTitle, e.district) : '';
+                const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventDistrict, e.district) : '';
                 const motionElement = e.hasOwnProperty('motion') ? createElement('h4', theme.eventTitle, e.motion) : '';
                 const initialFeeElement = e.hasOwnProperty('initialFee') ? createElement('h4', theme.eventTitle, e.initialFee) : '';
 
@@ -103,7 +103,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     combinedLocation = createElement('h4', theme.eventLocation, locationElementWith(e, 'motion'))
                 }
 
-                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation] });
+                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
                 
                 domNodes = [...chunk.event.allDay ? [] : [eventData]];
                 break;
@@ -114,7 +114,9 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
     return [timeText, content];
 }
 
-const locationElementWith = (e, key) =>  (key === 'initialFee') ? `$ ${e[key]} - ${e.location}` : `${e[key]} - ${e.location}`
+function locationElementWith(e, key) {
+    return (key === 'initialFee') ? `$ ${e[key]} - ${e.location}` : `${e[key]} - ${e.location}`
+  }
 
 function formatTime(date) {
     const hours = date.getUTCHours().toString();

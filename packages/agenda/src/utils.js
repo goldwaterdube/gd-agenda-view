@@ -7,29 +7,32 @@ export function groupEventChunks(chunks) {
     }
 
     sortEventChunks(chunks);
-
+    
     // Group
     let group = {
         columns: [],
         end: chunks[0].start.getTime()
     };
+    const fiveMinutes = (5 * 60000)
     for (let chunk of chunks) {
         let shift = 0;
         if (chunk.start < group.end) {
-            shift = (group.end - chunk.start ) / (5 * 60000)
-            group.end = group.end + (5 * 60000);
+            shift = (group.end - chunk.start) / fiveMinutes
+            chunk.end = new Date(Math.max(chunk.start.getTime() + fiveMinutes, chunk.end.getTime() - (shift * fiveMinutes)))
+            group.end = group.end + fiveMinutes;
         } else {
             shift = 0
             group = {
                 columns: [],
-                end: chunk.start.getTime() + (5 * 60000)
+                end: chunk.start.getTime() + fiveMinutes
             };
         }
 
         group.columns.push(chunk);
 
         chunk.group = group;
-        chunk.column = shift;
+        chunk.column = shift; 
+        // In Agenda, column === shift downwards: I didn't want to redo the whole event structure for this view only
     }
 }
 
