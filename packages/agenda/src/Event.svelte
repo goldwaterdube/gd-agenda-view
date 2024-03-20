@@ -55,7 +55,8 @@
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
-            style += `border: 2px solid ${bgColor};`;
+            style += `border: 2px solid ${bgColor}; ` +
+                     ``;
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -64,7 +65,7 @@
             style +=
                 `z-index:${chunk.column + 1};` +
                 `left:${$slotEventOverlap ? 0 : 0 }%;` +
-                `width:${$slotEventOverlap ? 100 : 100 }%;`
+                `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
         }
         if (over) {

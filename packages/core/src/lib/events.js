@@ -92,7 +92,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventDistrict, e.district) : '';
                 const motionElement = e.hasOwnProperty('motion') ? createElement('h4', theme.eventTitle, e.motion) : '';
                 const initialFeeElement = e.hasOwnProperty('initialFee') ? createElement('h4', theme.eventTitle, e.initialFee) : '';
-
+                
                 let combinedLocation, eventDetails, eventFooter
                 
                 if (e.type === 'consult' && e.initialFee) {
@@ -102,10 +102,11 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 } else { // court motion layout is default
                     combinedLocation = createElement('h4', theme.eventLocation, locationElementWith(e, 'motion'))
                 }
-
-                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
                 
-                domNodes = [...chunk.event.allDay ? [] : [eventData]];
+                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
+                const hoverHandle = createElement('div', theme.eventHoverHandle, '');
+                
+                domNodes = [...chunk.event.allDay ? [] : [eventData, hoverHandle]];
                 break;
         }
         content = {domNodes};

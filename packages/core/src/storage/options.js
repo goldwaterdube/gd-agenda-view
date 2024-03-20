@@ -81,6 +81,7 @@ export function createOptions(plugins) {
             eventDetails: 'ec-event-details',
             eventLocation: 'ec-event-location',
             eventDistrict: 'ec-event-district',
+            eventHoverHandle: 'ec-event-hover-handle',
             events: 'ec-events',
             extra: 'ec-extra',
             handle: 'ec-handle',

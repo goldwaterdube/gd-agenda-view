@@ -289,6 +289,16 @@
         }
       }
 
+      .ec-event-hover-handle {
+        content: '';
+        position: absolute;
+        top: -2px;
+        right: -13px;
+        width: 13px;
+        height: 11px;
+        background-color: currentColor;        
+      }
+
       .ec-event-footer {
         display: flex;
         justify-content: space-around;
