@@ -49,14 +49,13 @@
         let txtColor = bgColor
         let over = event.over || false
         style =
-            `top:${top + chunk.column * $slotHeight}px;` +
+            `top:${top + chunk.column * $slotHeight}px;` + // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
             `min-height:${height}px;` +
             `height:${height}px;` +
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
-            style += `border: 2px solid ${bgColor}; ` +
-                     ``;
+            style += `border: 2px solid ${bgColor};`;
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -77,7 +76,6 @@
         // Class
         classes = [
             bgEvent(display) ? $theme.bgEvent : $theme.event,
-            // over ? 'ec-event-over' : '',
             ...$_iClasses([], event),
             ...createEventClasses($eventClassNames, event, $_view)
         ].join(' ');

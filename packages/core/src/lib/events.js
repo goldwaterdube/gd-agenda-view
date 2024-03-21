@@ -104,9 +104,10 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 }
                 
                 const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
-                const hoverHandle = createElement('div', theme.eventHoverHandle, '');
-                
-                domNodes = [...chunk.event.allDay ? [] : [eventData, hoverHandle]];
+                const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
+                const allDayPrefix = e.allDay ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
+
+                domNodes = [...chunk.event.allDay ? [allDayPrefix, titleElement] : [eventData, hoverHandle]];
                 break;
         }
         content = {domNodes};

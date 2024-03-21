@@ -169,23 +169,25 @@
   }
 }
 
-/* All Day */
-.ec-all-day {
-  flex-shrink: 0;
-  border-top: none;
-
-  .ec-days {
-    border-bottom: none;
-  }
-
-  .ec-day {
-    padding-bottom: 4px;
-  }
-}
 
 /* Agenda theme */
 .ec-agenda {
-  
+
+    /* All Day */
+  .ec-all-day {
+    flex-shrink: 0;
+    border-top: none;
+    
+    .ec-days {
+      border-bottom: none;
+    }
+    
+    .ec-day {
+      padding-bottom: 0;
+      min-height: 13px;
+    }
+  }
+
   .ec-sidebar {
     position: absolute;
     padding: 0;
@@ -214,7 +216,6 @@
     padding: 0;
     color: var(--ec-event-text-color);
     box-sizing: border-box;
-    box-shadow: 0 0 1px 0 var(--ec-border-color);
     font-size: .6em;
     line-height: 12px;
     z-index: 1;  // put it above the pointer event (for multi-day events in month view)
@@ -224,6 +225,19 @@
       text-align: center;
       font-weight: 900;      
       font-family: sans-serif;
+      padding: 0;
+
+      .ec-all-day-prefix {
+        padding: 0 6px 0 3px;
+        width: 23px;
+        margin: 0;
+      }
+
+      .ec-event-title {
+        width: 100%;
+        text-align: left;
+        margin: 0;
+      }
 
       .ec-event-header {
         display: flex;
@@ -257,7 +271,7 @@
         .ec-event-location {
           position: absolute;
           top: -1.5px;
-          right: 1px;
+          right: 2px;
           width: 100%;
           text-align: right;
           line-height: 12px;
@@ -269,11 +283,11 @@
           text-transform: uppercase;          
           position: absolute;
           top: -1.5px;
+          right: 2px;
           width: 100%;
           text-align: right;
-          margin: 0;
           line-height: 12px;
-
+          margin: 0;
         }
 
         .ec-event-details {
@@ -281,11 +295,11 @@
           color: #fff;
           position: absolute;
           top: -1.5px;
-          right: 3px;
+          right: 2px;
           width: 100%;
           text-align: right;
-          margin: 0;
           line-height: 12px;
+          margin: 0;
         }
       }
 
@@ -366,10 +380,26 @@
   }
 }
 
+
+
 /* Original themes */
 .ec-day-grid,
 .ec-time-grid,
 .ec-list {
+
+  /* All Day */
+  .ec-all-day {
+    flex-shrink: 0;
+    border-top: none;
+
+    .ec-days {
+      border-bottom: none;
+    }
+
+    .ec-day {
+      padding-bottom: 4px;
+    }
+  }
 
   .ec-event {
     display: flex;
@@ -676,7 +706,7 @@
 
   .ec-day-grid &,
   .ec-all-day & {
-    min-height: 1.5em;
+    // min-height: 1.5em; // I could not find a way to make it have greater specificity nested under .ec-agenda, even with !important
     white-space: nowrap;
     text-overflow: ellipsis;
   }

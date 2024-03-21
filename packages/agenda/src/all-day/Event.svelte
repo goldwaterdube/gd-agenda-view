@@ -12,13 +12,14 @@
         helperEvent,
         keyEnter,
         task
-    } from '@event-calendar/core';
+    } from './../../../core/'; // don't point to the node package for dev
+    // } from '@event-calendar/core';
 
     export let chunk;
     export let longChunks = {};
 
     let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor, eventClick, eventColor, eventContent,
-        eventClassNames, eventDidMount, eventMouseEnter, eventMouseLeave, theme,
+        eventClassNames, eventDidMount, eventMouseEnter, eventMouseLeave, theme, slotHeight,
         _view, _intlEventTime, _interaction, _iClasses, _resBgColor, _resTxtColor, _tasks} = getContext('state');
 
     let el;
@@ -37,10 +38,11 @@
         display = event.display;
 
         // Class & Style
-        let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
-        let txtColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
+        let bgColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
+        let txtColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         style =
             `width:calc(${chunk.days * 100}% + ${(chunk.days - 1) * 7}px);` +
+            `height:${$slotHeight};` +
             `margin-top:${margin}px;`
         ;
         if (bgColor) {
