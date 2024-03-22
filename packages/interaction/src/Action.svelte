@@ -19,7 +19,7 @@
         toLocalDate,
         toViewWithLocalDates,
         listView
-    } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
     import {animate, limit} from './utils';
 
     let {_iEvents, _iClass, _events, _view, _dayGrid, _draggable, dateClick, dragScroll, datesAboveResources,

@@ -1,7 +1,7 @@
 <script>
     import {getContext} from 'svelte';
     import {listen} from 'svelte/internal';
-    import {bgEvent, helperEvent} from '@event-calendar/core';
+    import {bgEvent, helperEvent} from '@gd-agenda-view/core';
     import Action from './Action.svelte';
     import Pointer from './Pointer.svelte';
     import Resizer from './Resizer.svelte';

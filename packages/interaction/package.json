@@ -1,5 +1,5 @@
 {
-  "name": "@event-calendar/interaction",
+  "name": "@gd-agenda-view/interaction",
   "version": "2.6.1",
   "title": "Event Calendar Interaction plugin",
   "description": "Full-sized drag & drop event calendar with resource view",
@@ -12,7 +12,7 @@
   "homepage": "https://vkurko.github.io/calendar/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vkurko/calendar.git",
+    "url": "https://github.com/hpaves/calendar.git",
     "directory": "packages/interaction"
   },
   "license": "MIT",
@@ -26,7 +26,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@event-calendar/core": "~2.6.1",
+    "@gd-agenda-view/core": "~2.6.1",
     "svelte": "^4.2.8"
   }
 }

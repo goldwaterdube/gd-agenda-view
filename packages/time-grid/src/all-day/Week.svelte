@@ -7,7 +7,7 @@
         prepareEventChunks,
         eventIntersects,
         debounce, runReposition
-    } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
     import Day from './Day.svelte';
 
     export let dates;

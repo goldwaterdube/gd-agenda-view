@@ -46,7 +46,7 @@ export default [
 			format: 'es',
 			file: 'packages/interaction/index.js'
 		},
-		external: ['@event-calendar/core', 'svelte', 'svelte/internal', 'svelte/store'],
+		external: ['@gd-agenda-view/core', 'svelte', 'svelte/internal', 'svelte/store'],
 		plugins: [
 			svelte({
 				compilerOptions: {
@@ -63,7 +63,7 @@ export default [
 			format: 'es',
 			file: 'packages/day-grid/index.js'
 		},
-		external: ['@event-calendar/core', 'svelte', 'svelte/internal', 'svelte/store'],
+		external: ['@gd-agenda-view/core', 'svelte', 'svelte/internal', 'svelte/store'],
 		plugins: [
 			svelte({
 				compilerOptions: {
@@ -80,7 +80,7 @@ export default [
 			format: 'es',
 			file: 'packages/list/index.js'
 		},
-		external: ['@event-calendar/core', 'svelte', 'svelte/internal', 'svelte/store'],
+		external: ['@gd-agenda-view/core', 'svelte', 'svelte/internal', 'svelte/store'],
 		plugins: [
 			svelte({
 				compilerOptions: {
@@ -97,7 +97,7 @@ export default [
 			format: 'es',
 			file: 'packages/time-grid/index.js'
 		},
-		external: ['@event-calendar/core', 'svelte', 'svelte/internal', 'svelte/store'],
+		external: ['@gd-agenda-view/core', 'svelte', 'svelte/internal', 'svelte/store'],
 		plugins: [
 			svelte({
 				compilerOptions: {
@@ -108,13 +108,13 @@ export default [
 			})
 		],
 	},
-		{
+	{
 		input: 'packages/agenda/src/index.js',
 		output: {
 			format: 'es',
 			file: 'packages/agenda/index.js'
 		},
-		external: ['@event-calendar/core', 'svelte', 'svelte/internal', 'svelte/store'],
+		external: ['@gd-agenda-view/core', 'svelte', 'svelte/internal', 'svelte/store'],
 		plugins: [
 			svelte({
 				compilerOptions: {
@@ -131,7 +131,7 @@ export default [
 			format: 'es',
 			file: 'packages/resource-time-grid/index.js'
 		},
-		external: ['@event-calendar/core', '@event-calendar/time-grid', 'svelte', 'svelte/internal', 'svelte/store'],
+		external: ['@gd-agenda-view/core', '@gd-agenda-view/time-grid', 'svelte', 'svelte/internal', 'svelte/store'],
 		plugins: [
 			svelte({
 				compilerOptions: {
@@ -147,7 +147,7 @@ export default [
 		output: {
 			format: 'iife',
 			name: 'EventCalendar',
-			file: 'packages/build/event-calendar.min.js',
+			file: 'packages/build/gd-agenda-view.min.js',
 			sourcemap: true,
 			banner: '/*!\nEventCalendar v' + pkg.version + '\nhttps://github.com/vkurko/calendar\n*/'
 		},
@@ -188,7 +188,7 @@ export default [
 
 			scss({
 				output: (styles, styleNodes) => {
-					writeFileSync('packages/build/event-calendar.min.css', styles);
+					writeFileSync('packages/build/gd-agenda-view.min.css', styles);
 				},
 				outputStyle: 'compressed',
 				processor: css => postcss([autoprefixer])

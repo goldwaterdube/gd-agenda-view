@@ -14,7 +14,7 @@
         helperEvent,
         keyEnter,
         task
-    } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
 
     export let chunk;
     export let longChunks = {};

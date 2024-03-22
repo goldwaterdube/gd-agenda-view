@@ -1,6 +1,6 @@
 <script>
     import {getContext} from 'svelte';
-    import {addDuration, cloneDate, floor, rect} from '@event-calendar/core';
+    import {addDuration, cloneDate, floor, rect} from '@gd-agenda-view/core';
 
     let {_iEvents, _events, _viewDates, _slotTimeLimits, slotDuration, slotHeight, hiddenDays, _view, datesAboveResources,
         theme} = getContext('state');

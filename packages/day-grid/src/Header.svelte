@@ -1,6 +1,6 @@
 <script>
     import {getContext} from 'svelte';
-    import {setContent} from '@event-calendar/core';
+    import {setContent} from '@gd-agenda-view/core';
 
     let {theme, _intlDayHeader, _intlDayHeaderAL, _days} = getContext('state');
 </script>

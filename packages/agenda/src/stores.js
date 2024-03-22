@@ -11,7 +11,7 @@ import {
     bgEvent,
     setMidnight,
     toISOString
-} from '@event-calendar/core';
+} from '@gd-agenda-view/core';
 
 export function times(state) {
     return derived(

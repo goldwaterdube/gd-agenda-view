@@ -2,7 +2,7 @@
     import {getContext, tick} from 'svelte';
     import {is_function} from 'svelte/internal';
     import {datesEqual, setContent, createEventChunk, addDay, cloneDate, assign, setPayload, toISOString,
-        keyEnter, runReposition} from '@event-calendar/core';
+        keyEnter, runReposition} from '@gd-agenda-view/core';
     import Event from './Event.svelte';
     import Popup from './Popup.svelte';
 

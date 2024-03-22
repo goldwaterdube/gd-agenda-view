@@ -1,5 +1,5 @@
 {
-  "name": "@event-calendar/agenda",
+  "name": "@gd-agenda-view/agenda",
   "version": "2.6.1",
   "title": "Event Calendar Agenda plugin",
   "description": "Classic AFG-style transparent view",
@@ -12,7 +12,7 @@
   "homepage": "https://vkurko.github.io/calendar/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vkurko/calendar.git",
+    "url": "https://github.com/hpaves/calendar.git",
     "directory": "packages/agenda"
   },
   "license": "MIT",
@@ -26,7 +26,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@event-calendar/core": "~2.6.1",
+    "@gd-agenda-view/core": "~2.6.1",
     "svelte": "^4.2.8"
   }
 }

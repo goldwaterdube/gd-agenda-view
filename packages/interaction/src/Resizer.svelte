@@ -1,6 +1,6 @@
 <script>
     import {getContext} from 'svelte';
-    import {bgEvent, helperEvent} from '@event-calendar/core';
+    import {bgEvent, helperEvent} from '@gd-agenda-view/core';
 
     export let event;
 

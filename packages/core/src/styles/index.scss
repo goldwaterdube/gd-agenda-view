@@ -229,6 +229,7 @@
 
       .ec-all-day-prefix {
         padding: 0 6px 0 3px;
+        box-sizing: content-box;
         width: 23px;
         margin: 0;
       }
@@ -246,6 +247,7 @@
         .ec-event-time {
           position: absolute;
           color: inherit;
+          box-sizing: content-box;
           padding: 0 4px 1px 2.5px;
           line-height: 8px;
           width: 23px;

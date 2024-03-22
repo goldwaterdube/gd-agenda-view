@@ -12,7 +12,7 @@
         ghostEvent,
         keyEnter,
         task
-    } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
 
     export let date;
     export let chunk;

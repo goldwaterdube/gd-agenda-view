@@ -11,7 +11,7 @@
         setPayload,
         bgEvent,
         toISOString
-    } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
     import Event from './Event.svelte';
 
     export let date;

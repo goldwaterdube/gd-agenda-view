@@ -12,8 +12,7 @@
         helperEvent,
         keyEnter,
         task
-    } from './../../../core/'; // don't point to the node package for dev
-    // } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
 
     export let chunk;
     export let longChunks = {};

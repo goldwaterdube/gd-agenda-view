@@ -1,5 +1,5 @@
 {
-  "name": "event-calendar",
+  "name": "gd-agenda-view",
   "version": "2.6.1",
   "scripts": {
     "build": "rollup -c",
@@ -20,7 +20,6 @@
     "@event-calendar/list": "~2.6.1",
     "@event-calendar/resource-time-grid": "~2.6.1",
     "@event-calendar/time-grid": "~2.6.1",
-    "@event-calendar/agenda": "~2.6.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -40,5 +39,20 @@
   "browserslist": [
     "defaults and supports fetch"
   ],
-  "type": "module"
+  "type": "module",
+  "description": "A vkurko event-calendar fork",
+  "main": "rollup.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hpaves/event-calendar.git"
+  },
+  "author": "hpaves",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hpaves/event-calendar/issues"
+  },
+  "homepage": "https://github.com/hpaves/event-calendar#readme"
 }

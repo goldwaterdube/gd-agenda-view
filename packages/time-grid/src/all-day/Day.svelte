@@ -1,6 +1,6 @@
 <script>
     import {getContext} from 'svelte';
-    import {datesEqual, runReposition, setPayload} from '@event-calendar/core';
+    import {datesEqual, runReposition, setPayload} from '@gd-agenda-view/core';
     import Event from './Event.svelte';
 
     export let date;

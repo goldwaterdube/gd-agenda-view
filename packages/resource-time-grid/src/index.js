@@ -1,5 +1,5 @@
-import {btnTextDay, btnTextWeek, themeView} from '@event-calendar/core';
-import TimeGrid from '@event-calendar/time-grid';
+import {btnTextDay, btnTextWeek, themeView} from '@gd-agenda-view/core';
+import TimeGrid from '@gd-agenda-view/time-grid';
 import {viewResources} from './stores.js';
 import {createResources} from './lib.js';
 import View from './View.svelte';

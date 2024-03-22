@@ -1,4 +1,4 @@
-import {btnTextDay, btnTextWeek, btnTextMonth, btnTextYear, intl, themeView} from '@event-calendar/core';
+import {btnTextDay, btnTextWeek, btnTextMonth, btnTextYear, intl, themeView} from '@gd-agenda-view/core';
 import View from './View.svelte';
 
 export default {

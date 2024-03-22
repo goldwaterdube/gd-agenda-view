@@ -12,9 +12,7 @@
         ghostEvent,
         keyEnter,
         task
-    } from './../../core/'; // don't point to the node package for dev
-    // } from '@event-calendar/core';
-  import { fade } from 'svelte/transition';
+    } from '@gd-agenda-view/core';
 
     export let date;
     export let chunk;

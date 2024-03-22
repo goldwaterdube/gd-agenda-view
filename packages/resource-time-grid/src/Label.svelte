@@ -1,7 +1,7 @@
 <script>
     import {getContext, onMount, afterUpdate, createEventDispatcher} from 'svelte';
     import {is_function} from 'svelte/internal';
-    import {setContent, toLocalDate} from '@event-calendar/core';
+    import {setContent, toLocalDate} from '@gd-agenda-view/core';
 
     export let resource;
     export let date = undefined;

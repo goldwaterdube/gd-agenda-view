@@ -1,4 +1,4 @@
-import {btnTextDay, btnTextWeek, themeView} from '@event-calendar/core';
+import {btnTextDay, btnTextWeek, themeView} from '@gd-agenda-view/core';
 import {slotTimeLimits, times} from './stores.js';
 import View from './View.svelte';
 

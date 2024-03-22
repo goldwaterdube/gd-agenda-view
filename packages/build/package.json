@@ -1,5 +1,5 @@
 {
-  "name": "@event-calendar/build",
+  "name": "@gd-agenda-view/build",
   "version": "2.6.1",
   "title": "Event Calendar",
   "description": "Full-sized drag & drop event calendar with resource view",
@@ -12,16 +12,16 @@
   "homepage": "https://vkurko.github.io/calendar/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vkurko/calendar.git",
+    "url": "https://github.com/hpaves/calendar.git",
     "directory": "packages/build"
   },
   "license": "MIT",
-  "jsdelivr": "event-calendar.min.js",
+  "jsdelivr": "gd-agenda-view.min.js",
   "devDependencies": {
-    "@event-calendar/day-grid": "~2.6.1",
-    "@event-calendar/interaction": "~2.6.1",
-    "@event-calendar/list": "~2.6.1",
-    "@event-calendar/time-grid": "~2.6.1",
-    "@event-calendar/resource-time-grid": "~2.6.1"
+    "@gd-agenda-view/day-grid": "~2.6.1",
+    "@gd-agenda-view/interaction": "~2.6.1",
+    "@gd-agenda-view/list": "~2.6.1",
+    "@gd-agenda-view/time-grid": "~2.6.1",
+    "@gd-agenda-view/resource-time-grid": "~2.6.1"
   }
 }

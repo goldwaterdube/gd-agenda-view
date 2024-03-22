@@ -1,4 +1,4 @@
-import {min, max} from '@event-calendar/core';
+import {min, max} from '@gd-agenda-view/core';
 
 let busy = false;
 export function animate(fn) {

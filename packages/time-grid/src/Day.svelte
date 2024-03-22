@@ -9,7 +9,7 @@
         floor,
         rect,
         setPayload
-    } from '@event-calendar/core';
+    } from '@gd-agenda-view/core';
     import {groupEventChunks} from './utils';
     import Event from './Event.svelte';
     import NowIndicator from './NowIndicator.svelte';

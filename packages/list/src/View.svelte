@@ -3,7 +3,7 @@
     import {is_function} from 'svelte/internal';
     import Body from './Body.svelte';
     import Day from './Day.svelte';
-    import {addDay, cloneDate, toViewWithLocalDates, setContent, bgEvent} from '@event-calendar/core';
+    import {addDay, cloneDate, toViewWithLocalDates, setContent, bgEvent} from '@gd-agenda-view/core';
 
     let {_events, _view, _viewDates, noEventsClick, noEventsContent, theme} = getContext('state');
 
