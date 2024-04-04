@@ -25,7 +25,7 @@ export default {
 			buttonText: btnTextWeek,
 			component: View,
 			duration: {weeks: 1},
-			theme: themeView('ec-agenda ec-week-view')
+			theme: themeView('ec-agenda ec-agenda-view')
 		};
 	},
 

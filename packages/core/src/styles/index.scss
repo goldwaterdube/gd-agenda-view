@@ -1,4 +1,5 @@
 @use "theme";
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap');
 
 /* Grid */
 .ec-days,
@@ -172,6 +173,13 @@
 
 /* Agenda theme */
 .ec-agenda {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .ec-toolbar {
+    display: none; // hide inbuilt toolbar in Agenda view
+  }
 
     /* All Day */
   .ec-all-day {
@@ -200,8 +208,78 @@
     }
   }
 
-  .ec-day {
-    border-style: none solid none none;
+  .ec-top-header {
+
+    .ec-days {
+      border: none;
+
+      .ec-day {
+        border: none;
+        padding-left: 0.4em;
+
+        .ec-day-month-year {
+          font-size: 1.3em;
+          font-weight: 600;
+        }
+        
+        .ec-day-week-number {
+          margin-left: 0.8em;
+          padding-bottom: 0.3em;
+          font-size: 0.7em;
+          display: flex;
+          align-items: flex-end;
+        }
+      }
+    }   
+  }
+
+  .ec-header {
+    display: flex;
+    flex-shrink: 0;
+    border-color: var(--ec-border-color);
+      
+    .ec-days {
+      border: none;
+
+      .ec-day {
+        border-style: none solid none none;
+        border-color: var(--ec-border-color);
+        padding: 0.3em 0.3em 0.1em 0.3em;
+
+        .ec-day-of-month {
+          font-size: 1.6em;
+          font-weight: 600;
+          font-family: "Cinzel", serif;
+          font-weight: 600;
+          margin-right: 0.2em;
+        }
+
+        .ec-day-week-day {
+          transform: translateY(-0.3em);
+        }
+        
+        .ec-day-year-perspective {
+          height: 1em;
+          color: var(--ec-time-hour-marker-color);
+          padding-bottom: 0.1em;
+          font-size: 0.6em;
+          display: flex;
+          align-items: center;
+        }
+
+        .ec-day-anniversary {
+          height: 1em;
+          color: red;
+          font-size: 0.7em;
+          font-family: "Cinzel", serif;
+          text-align: center;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
   }
 
   @function color-with-opacity($color, $opacity) {
