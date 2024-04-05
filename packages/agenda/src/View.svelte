@@ -59,11 +59,14 @@
             {@const formattedDate = formatDateForAgenda(date)}
             <div class="{$theme.day}">
                 <div style="display: flex;">
-                    {#if formattedDate.weekDay === 'Monday' || formattedDate.dayOfMonth === '01'}
-                    <div use:setContent={formattedDate.header} class="ec-day-month-year"></div>
+                    {#if formattedDate.weekDay === 'Monday' || formattedDate.weekDay === 'Thursday' || formattedDate.dayOfMonth === '01'}
+                        <div use:setContent={formattedDate.header} class="ec-day-month-year"></div>
                     {/if}
                     {#if formattedDate.weekDay === 'Monday'}
-                    <div use:setContent={formattedDate.weekNumber} class="ec-day-week-number"></div>
+                        <div use:setContent={formattedDate.weekNumber} class="ec-day-week-number"></div>
+                    {/if}
+                    {#if formattedDate.weekDay === 'Wednesday' || formattedDate.weekDay === 'Saturday'}
+                        <div use:setContent={"Goldwater, Dubé"} class="ec-day-gd-name"></div>
                     {/if}
                 </div>
             </div>

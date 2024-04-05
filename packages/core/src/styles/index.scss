@@ -173,9 +173,6 @@
 
 /* Agenda theme */
 .ec-agenda {
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
 
   .ec-toolbar {
     display: none; // hide inbuilt toolbar in Agenda view
@@ -214,8 +211,11 @@
       border: none;
 
       .ec-day {
+        height: 2em;
         border: none;
         padding-left: 0.4em;
+        width: 280px; // column minimum width
+        position: relative;
 
         .ec-day-month-year {
           font-size: 1.3em;
@@ -229,6 +229,17 @@
           display: flex;
           align-items: flex-end;
         }
+
+        .ec-day-gd-name {
+          font-size: 0.8em;
+          font-family: "Cinzel", serif;
+          font-weight: 600;
+          margin-bottom: .2em;
+          margin-right: .5em;
+          position: absolute; /* Position the text absolutely */
+          bottom: 0; /* Align the text to the bottom */
+          right: 0; /* Align the text to the right */
+      }
       }
     }   
   }
@@ -248,7 +259,6 @@
 
         .ec-day-of-month {
           font-size: 1.6em;
-          font-weight: 600;
           font-family: "Cinzel", serif;
           font-weight: 600;
           margin-right: 0.2em;
@@ -330,8 +340,8 @@
           line-height: 8px;
           width: 23px;
           text-align: center;
-          border-bottom: 2px solid currentColor;
-          border-right: 2px solid currentColor;
+          border: 2px solid currentColor;
+          transform: translate(-2px, -2px);
           text-shadow: 
           -1px -0px 0 #fff,  
           1px -0px 0 #fff,
