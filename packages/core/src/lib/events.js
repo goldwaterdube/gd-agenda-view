@@ -17,12 +17,12 @@ export function createEvents(input) {
         over: event.over || false,
         title: event.title || '',
         details: event.details || '',
-        type: event.type || '', // court or consult
-        lawyer: event.lawyer || '', // take name, display initials
+        type: event.type || '', // court, consult, etc
+        lawyer: event.lawyer || '', // lawyer id
         location: event.location || '', // rm, teams, etc
         district: event.district || '', // if court
         motion: event.motion || '', // if court
-        initialFee: event.initialFee || '', // value === initial consult
+        initialFee: event.initialFee || '', // if consult
         titleHTML: event.titleHTML || '',
         editable: event.editable,
         startEditable: event.startEditable,
@@ -87,6 +87,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : '';
                 const titleElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventTitle, e.title) : '';
                 const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventDetails, e.details) : '';
+                const typeElement = e.hasOwnProperty('type') ? createElement('div', theme.eventType, e.type) : '';
                 const lawyerElement = e.hasOwnProperty('lawyer') ? createElement('h4', theme.eventTitle, e.lawyer) : '';
                 const locationElement = e.hasOwnProperty('location') ? createElement('h4', theme.eventTitle, e.location) : '';
                 const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventDistrict, e.district) : '';
@@ -95,19 +96,21 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 
                 let combinedLocation, eventDetails, eventFooter
                 
-                if (e.type === 'consult' && e.initialFee) {
+                if (e.type === 'consult') {
                     combinedLocation = createElement('h4', theme.eventLocation, locationElementWith(e, 'initialFee'))
-                } else if (e.type === 'consult') {
+                } else if (e.type === 'meeting') {
                     combinedLocation = createElement('h4', theme.eventLocation, locationElementWith(e, 'lawyer'))
+                } else if (e.type === 'holiday') {
+                    combinedLocation = ''
                 } else { // court motion layout is default
                     combinedLocation = createElement('h4', theme.eventLocation, locationElementWith(e, 'motion'))
                 }
                 
-                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
+                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement,  combinedLocation, detailsElement, districtElement] });
                 const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
                 const allDayPrefix = e.allDay ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
 
-                domNodes = [...chunk.event.allDay ? [allDayPrefix, titleElement] : [eventData, hoverHandle]];
+                domNodes = [...chunk.event.allDay ? [allDayPrefix, titleElement, typeElement] : [eventData, hoverHandle, typeElement]];
                 break;
         }
         content = {domNodes};

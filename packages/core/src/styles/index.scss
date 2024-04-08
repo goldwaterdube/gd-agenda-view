@@ -231,10 +231,10 @@
         }
 
         .ec-day-gd-name {
-          font-size: 0.8em;
+          font-size: 0.7em;
           font-family: "Cinzel", serif;
           font-weight: 600;
-          margin-bottom: .2em;
+          margin-bottom: .35em;
           margin-right: .5em;
           position: absolute; /* Position the text absolutely */
           bottom: 0; /* Align the text to the bottom */
@@ -403,6 +403,10 @@
         background-color: currentColor;        
       }
 
+      .ec-event-type {
+        display: none; // just so we can read it from the dom
+      }
+      
       .ec-event-footer {
         display: flex;
         justify-content: space-around;
