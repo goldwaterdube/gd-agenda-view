@@ -45,7 +45,7 @@
         let maxHeight = ($_slotTimeLimits.max.seconds / 60 - start) / step * $slotHeight;
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         let txtColor = bgColor
-        let over = event.over || false
+        let completed = event.completed || false
         let type = event.type
         style =
             `top:${top + chunk.column * $slotHeight}px;` + // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
@@ -55,7 +55,7 @@
         ;
         if (bgColor) {
             style += `border: 2px solid ${bgColor};`;
-                if (type === 'holiday') {
+                if (type === 6) { // holiday
                     style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px));`
                 }
         }
@@ -69,7 +69,7 @@
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
         }
-        if (over && type !== 'holiday') {
+        if (completed && type !== 6) { // holiday
             style += `background: ` + 
                      `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)), ` + 
                      `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)`

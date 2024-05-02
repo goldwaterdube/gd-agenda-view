@@ -35,7 +35,7 @@
 
     $: {
         display = event.display;
-        let over = event.over || false
+        let completed = event.completed || false
 
         // Class & Style
         let bgColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
@@ -52,7 +52,7 @@
             style += `color:${txtColor};`;
         }
 
-        if (over) {
+        if (completed) {
             style += `text-decoration: line-through; text-decoration-thickness: 1.5px;`
         }
 
