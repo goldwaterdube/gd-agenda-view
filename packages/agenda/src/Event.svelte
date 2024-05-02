@@ -46,7 +46,7 @@
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         let txtColor = bgColor
         let completed = event.completed || false
-        let type = event.type
+        let typeSlug = event.typeSlug
         style =
             `top:${top + chunk.column * $slotHeight}px;` + // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
             `min-height:${height}px;` +
@@ -55,7 +55,7 @@
         ;
         if (bgColor) {
             style += `border: 2px solid ${bgColor};`;
-                if (type === 6) { // holiday
+                if (typeSlug === 'holiday') {
                     style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px));`
                 }
         }
@@ -69,7 +69,7 @@
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
         }
-        if (completed && type !== 6) { // holiday
+        if (completed && typeSlug !== 'holiday') {
             style += `background: ` + 
                      `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)), ` + 
                      `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)`
