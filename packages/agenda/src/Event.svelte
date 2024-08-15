@@ -54,7 +54,7 @@
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
-            style += `border: 2px solid ${bgColor};`;
+            style += `border: 2px solid ${bgColor}; outline: none;`;
                 if (typeSlug === 'holiday') {
                     style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px));`
                 }
