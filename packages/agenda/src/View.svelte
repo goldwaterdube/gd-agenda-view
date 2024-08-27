@@ -5,8 +5,9 @@
     import Body from './Body.svelte';
     import Day from './Day.svelte';
     import Week from './all-day/Week.svelte';
+    import MoneyWeek from './all-day/MoneyWeek.svelte';
 
-    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme} = getContext('state');
+    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, moneySlot} = getContext('state');
 
     function getWeekNumber(date) {
         const oneJan = new Date(date.getFullYear(), 0, 1)
@@ -49,65 +50,78 @@
 
         return {dayOfMonth, weekDay, header, weekNumber, yearPerspective}
     }
-</script>
+  </script>
 
 
 
-<div class="ec-top-header">
-    <Section>
-        {#each $_viewDates as date}
-            {@const formattedDate = formatDateForAgenda(date)}
-            <div class="{$theme.day}">
-                <div style="display: flex;">
-                    {#if formattedDate.weekDay === 'Monday' || formattedDate.weekDay === 'Thursday' || formattedDate.dayOfMonth === '01'}
-                        <div use:setContent={formattedDate.header} class="ec-day-month-year"></div>
-                    {/if}
-                    {#if formattedDate.weekDay === 'Monday'}
-                        <div use:setContent={formattedDate.weekNumber} class="ec-day-week-number"></div>
-                    {/if}
-                    {#if formattedDate.weekDay === 'Wednesday' || formattedDate.weekDay === 'Saturday'}
-                        <div use:setContent={"Goldwater, Dubé"} class="ec-day-gd-name"></div>
-                    {/if}
-                </div>
-            </div>
-        {/each}
-    </Section>
-</div>
-<div class="{$theme.header}">
-    <Section>
-        {#each $_viewDates as date}
-            {@const formattedDate = formatDateForAgenda(date)}
-            <div class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}" role="columnheader">
-                <time
-                    datetime="{toISOString(date, 10)}"
-                    aria-label="{$_intlDayHeader.format(date)}"
-                >
+{#if !$moneySlot}
+    <div class="ec-top-header">
+        <Section>
+            {#each $_viewDates as date}
+                {@const formattedDate = formatDateForAgenda(date)}
+                <div class="{$theme.day}">
                     <div style="display: flex;">
-                        <div use:setContent={formattedDate.dayOfMonth} class="ec-day-of-month"></div>
-                        <div use:setContent={formattedDate.weekDay} class="ec-day-week-day"></div>
+                        {#if formattedDate.weekDay === 'Monday' || formattedDate.weekDay === 'Thursday' || formattedDate.dayOfMonth === '01'}
+                            <div use:setContent={formattedDate.header} class="ec-day-month-year"></div>
+                        {/if}
+                        {#if formattedDate.weekDay === 'Monday'}
+                            <div use:setContent={formattedDate.weekNumber} class="ec-day-week-number"></div>
+                        {/if}
+                        {#if formattedDate.weekDay === 'Wednesday' || formattedDate.weekDay === 'Saturday'}
+                            <div use:setContent={"Goldwater, Dubé"} class="ec-day-gd-name"></div>
+                        {/if}
                     </div>
-                    <div style="display: flex;">
-                        <div use:setContent={formattedDate.yearPerspective} class="ec-day-year-perspective"></div>
-                        <div use:setContent={""} class="ec-day-anniversary"></div>
-                    </div>    
-                </time>
-            </div>
-        {/each}
-    </Section>
-    <div class="{$theme.hiddenScroll}"></div>
-</div>
-{#if $allDaySlot}
-    <div class="{$theme.allDay}">
-        <div class="{$theme.content}">
-            <Section>
-                <Week dates={$_viewDates}/>
-            </Section>
-            <div class="{$theme.hiddenScroll}"></div>
-        </div>
+                </div>
+            {/each}
+        </Section>
     </div>
+    <div class="{$theme.header}">
+        <Section>
+            {#each $_viewDates as date}
+                {@const formattedDate = formatDateForAgenda(date)}
+                <div class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}" role="columnheader">
+                    <time
+                        datetime="{toISOString(date, 10)}"
+                        aria-label="{$_intlDayHeader.format(date)}"
+                    >
+                        <div style="display: flex;">
+                            <div use:setContent={formattedDate.dayOfMonth} class="ec-day-of-month"></div>
+                            <div use:setContent={formattedDate.weekDay} class="ec-day-week-day"></div>
+                        </div>
+                        <div style="display: flex;">
+                            <div use:setContent={formattedDate.yearPerspective} class="ec-day-year-perspective"></div>
+                            <div use:setContent={""} class="ec-day-anniversary"></div>
+                        </div>
+                    </time>
+                </div>
+            {/each}
+        </Section>
+        <div class="{$theme.hiddenScroll}"></div>
+    </div>
+    {#if $allDaySlot}
+        <div class="{$theme.allDay}">
+            <div class="{$theme.content}">
+                <Section>
+                    <Week dates={$_viewDates}/>
+                </Section>
+                <div class="{$theme.hiddenScroll}"></div>
+            </div>
+        </div>
+    {/if}
+    <Body>
+        {#each $_viewDates as date}
+            <Day {date}/>
+        {/each}
+    </Body>
+{:else}
+    {#if $allDaySlot}
+        <div class="{$theme.allDay}">
+            <div class="{$theme.content}">
+                <Section>
+                    <MoneyWeek dates={$_viewDates}/>
+                </Section>
+                <div class="{$theme.hiddenScroll}"></div>
+            </div>
+        </div>
+    {/if}
 {/if}
-<Body>
-{#each $_viewDates as date}
-    <Day {date}/>
-{/each}
-</Body>

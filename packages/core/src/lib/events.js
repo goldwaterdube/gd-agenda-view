@@ -15,6 +15,7 @@ export function createEvents(input) {
         start: createDate(event.start),
         end: createDate(event.end),
         completed: event.completed || false,
+        money: event.money || false,
         title: event.title || '',
         details: event.details || '',
         owner: event.owner || '', // calendar id
@@ -102,10 +103,15 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
 
                 const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
                 const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
-                const allDayPrefix = e.allDay ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
-
+                const allDayPrefix = e.allDay && !e.money ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
+                const moneyFile = e.allDay && e.money ? createElement('h4', theme.moneyFile, e.title) : '';
+                const moneyDash = e.allDay && e.money ? createElement('h4', theme.moneyDash, '-') : '';
+                const moneyAmount = e.allDay && e.money ? createElement('h4', theme.moneyAmount, e.rate) : '';
+                
                 domNodes = [...chunk.event.allDay 
-                    ? [allDayPrefix, titleElement, combinedLocation, typeSlugElement] 
+                    ? chunk.event.money 
+                        ? [moneyFile, moneyAmount] 
+                        : [allDayPrefix, titleElement, combinedLocation, typeSlugElement]
                     : [eventData, hoverHandle, typeSlugElement]];
                 break;
         }

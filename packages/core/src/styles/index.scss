@@ -180,6 +180,7 @@
 
     /* All Day */
   .ec-all-day {
+    position: relative;
     flex-shrink: 0;
     border-top: none;
     
@@ -190,6 +191,17 @@
     .ec-day {
       padding-bottom: 0;
       min-height: 13px;
+    }
+
+    .ec-day::before {
+      content: "";
+      position: absolute;
+      top: 13px; /* Start after the first line */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to bottom, var(--ec-border-color) 1px, transparent 1px);
+      background-size: 100% 13px;
     }
   }
 
@@ -311,7 +323,7 @@
     .ec-event-body {
       display: flex;
       text-align: center;
-      font-weight: 900;      
+      font-weight: 900;
       font-family: sans-serif;
       padding: 0;
 
@@ -320,6 +332,29 @@
         box-sizing: content-box;
         width: 23px;
         margin: 0;
+        text-align: right;
+      }
+      
+      .ec-money-file {
+        width: 170px;
+        margin: 0;
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      .ec-money-file::after {
+        content: " -";
+        font-size: inherit;
+        color: inherit;
+        margin-left: 12px;
+      }
+
+      .ec-money-amount {
+        width: 100px;
+        text-align: right;
+        line-height: 12px;
+        margin: 0;
+        padding-left: auto;
       }
 
       .ec-event-title {
