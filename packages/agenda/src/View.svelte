@@ -7,7 +7,8 @@
     import Week from './all-day/Week.svelte';
     import MoneyWeek from './all-day/MoneyWeek.svelte';
 
-    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, moneySlot} = getContext('state');
+    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, moneySlot, _events} = getContext('state');
+    const anniversaries = $_events.filter(e => e.type == 7)
 
     function getWeekNumber(date) {
         const oneJan = new Date(date.getFullYear(), 0, 1)
@@ -79,6 +80,12 @@
         <Section>
             {#each $_viewDates as date}
                 {@const formattedDate = formatDateForAgenda(date)}
+                {@const anniversariesToday = anniversaries.filter(ann => {
+                    const annStartDate = new Date(ann.start).toDateString()
+                    const inputDate = new Date(date).toDateString()
+                    if (annStartDate === inputDate) return ann
+                  })
+                }
                 <div class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}" role="columnheader">
                     <time
                         datetime="{toISOString(date, 10)}"
@@ -90,7 +97,12 @@
                         </div>
                         <div style="display: flex;">
                             <div use:setContent={formattedDate.yearPerspective} class="ec-day-year-perspective"></div>
-                            <div use:setContent={""} class="ec-day-anniversary"></div>
+                            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%;">
+                                {#each anniversariesToday as ann}
+                                    <!-- svelte-ignore a11y-missing-content -->
+                                    <a href="/entries/{ann?.id}" use:setContent={ann?.title} class="ec-day-anniversary"></a>
+                                {/each}
+                            </div>
                         </div>
                     </time>
                 </div>

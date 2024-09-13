@@ -34,7 +34,6 @@
     $: {
         chunks = [];
         for (let event of $_events) {
-            console.log(event)
             if (event.allDay && event.money && event.display !== 'background' && eventIntersects(event, start, end, resource)) {
                 let chunk = createEventChunk(event, start, end);
                 chunks.push(chunk);
