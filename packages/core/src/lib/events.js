@@ -101,7 +101,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const proceedingElement = e.hasOwnProperty('proceeding') ? createElement('h4', theme.eventTitle, e.proceeding) : '';
                 const rateElement = e.hasOwnProperty('rate') ? createElement('h4', theme.eventTitle, e.rate) : '';
 
-                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, combinedLocation, detailsElement, districtElement] });
+                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, districtElement, combinedLocation, detailsElement] });
                 const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
                 const allDayPrefix = e.allDay && !e.money ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
                 const moneyFile = e.allDay && e.money ? createElement('h4', theme.moneyFile, e.title) : '';
