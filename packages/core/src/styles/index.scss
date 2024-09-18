@@ -260,6 +260,8 @@
     display: flex;
     flex-shrink: 0;
     border-color: var(--ec-border-color);
+    border-right: none;
+    border-left: 2px solid var(--ec-border-color);
       
     .ec-days {
       border: none;
@@ -281,7 +283,7 @@
         }
         
         .ec-day-year-perspective {
-          height: 1em;
+          height: 11px;
           color: var(--ec-time-hour-marker-color);
           padding-bottom: 0.1em;
           font-size: 0.6em;
@@ -290,7 +292,7 @@
         }
 
         .ec-day-anniversary {
-          height: 1em;
+          height: 11px;
           color: red;
           font-size: 0.7em;
           font-family: "Cinzel", serif;
