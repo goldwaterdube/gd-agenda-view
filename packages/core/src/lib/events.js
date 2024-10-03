@@ -11,24 +11,24 @@ export function createEvents(input) {
         resourceIds: Array.isArray(event.resourceIds)
             ? event.resourceIds.map(String)
             : ('resourceId' in event ? [String(event.resourceId)] : []),
-        allDay: event.allDay ?? (noTimePart(event.start) && noTimePart(event.end)),
-        start: createDate(event.start),
-        end: createDate(event.end),
-        completed: event.completed || false,
+        allDay: event.is_all_day ?? (noTimePart(event.start_time) && noTimePart(event.end_time)),
+        start: createDate(event.start_time),
+        end: createDate(event.end_time),
+        completed: event.is_completed || false,
         money: event.money || false,
         title: event.title || '',
-        details: event.details || '',
-        owner: event.owner || '', // calendar id
+        details: event.description || '',
+        owner: event.owner_id || '', // calendar_id
         initials: event.initials || '', // calendar initials
-        type: event.type || '', // type id
+        type: event.event_type_id || '',
         typeSlug: event.typeSlug || '', // court, consult, etc
-        participants: event.participants || '', // participants calendar ids as csv string
+        participants: event.participants || '', // participants calendar_ids as csv string
         participantsSlug: event.participantsSlug || '', // participants colored initials as html 
         location: event.location || '',
-        district: event.district || '',
+        district: event.court_district_id || '',
         districtName: event.districtName || '',
-        proceeding: event.proceeding || '',
-        rate: event.rate || '',
+        proceeding: event.court_proceeding_name || '',
+        rate: event.service_rate || '',
         titleHTML: event.titleHTML || '',
         editable: event.editable,
         startEditable: event.startEditable,
