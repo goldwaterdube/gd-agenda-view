@@ -1,6 +1,6 @@
 {
   "name": "@gd-agenda-view/interaction",
-  "version": "2.6.6",
+  "version": "2.6.8",
   "title": "Event Calendar Interaction plugin",
   "description": "Full-sized drag & drop event calendar with resource view",
   "keywords": [
@@ -26,7 +26,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@gd-agenda-view/core": "~2.6.6",
+    "@gd-agenda-view/core": "~2.6.8",
     "svelte": "^4.2.8"
   }
 }
