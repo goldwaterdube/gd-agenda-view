@@ -1,6 +1,6 @@
 {
   "name": "@gd-agenda-view/core",
-  "version": "2.6.9",
+  "version": "2.6.10",
   "title": "Event Calendar Core package",
   "description": "Full-sized drag & drop event calendar with resource view",
   "keywords": [

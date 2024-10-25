@@ -34,7 +34,7 @@
     $: {
         chunks = [];
         for (let event of $_events) {
-            if (event.allDay && event.display !== 'background' && eventIntersects(event, start, end, resource)) {
+            if (event.allDay && event.type !== 'anniversary' && event.display !== 'background' && eventIntersects(event, start, end, resource)) {
                 let chunk = createEventChunk(event, start, end);
                 chunks.push(chunk);
             }
@@ -46,7 +46,7 @@
 
     $: iChunks = $_iEvents.map(event => {
         let chunk;
-        if (event && event.allDay && eventIntersects(event, start, end, resource)) {
+        if (event && event.allDay && event.type !== 'anniversary' && eventIntersects(event, start, end, resource)) {
             chunk = createEventChunk(event, start, end);
             prepareEventChunks([chunk], $hiddenDays);
         } else {

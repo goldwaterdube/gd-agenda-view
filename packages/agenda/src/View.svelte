@@ -1,6 +1,6 @@
 <script>
     import {getContext} from 'svelte';
-    import { writable } from 'svelte/store';
+    import { derived } from 'svelte/store';
     import {setContent, toISOString} from '@gd-agenda-view/core';
     import Section from './Section.svelte';
     import Body from './Body.svelte';
@@ -9,15 +9,9 @@
 
     let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, allDaySlotOnly, _events} = getContext('state');
 
-    // bad and mutational way to split anniversaries from the rest of the events
-    const anniversaries = writable([])
-
-    $: {
-        $anniversaries = $_events.filter(e => e.type === 'anniversary')
-        if ($anniversaries.length) {
-            $_events = $_events.filter(e => e.type !== 'anniversary')
-        }
-    }
+    const anniversaries = derived(_events, $events => 
+        $events.filter(event => event.type === 'anniversary')
+    )
 
     function getWeekNumber(date) {
         const oneJan = new Date(date.getFullYear(), 0, 1)
@@ -58,11 +52,9 @@
         const yearPerspective = getYearPerspective(localDate)
         const header = `${month} ${year}`
 
-        return {dayOfMonth, weekDay, header, weekNumber, yearPerspective}
+        return { dayOfMonth, weekDay, header, weekNumber, yearPerspective }
     }
-  </script>
-
-
+</script>
 
 {#if $allDaySlotOnly}
     {#if $allDaySlot}
