@@ -12,12 +12,12 @@
     // bad and mutational way to split anniversaries from the rest of the events
     const anniversaries = writable([])
 
-    // $: {
-    //     $anniversaries = $_events.filter(e => e.type === 'anniversary')
-    //     if ($anniversaries.length) {
-    //         $_events = $_events.filter(e => e.type !== 'anniversary')
-    //     }
-    // }
+    $: {
+        $anniversaries = $_events.filter(e => e.type === 'anniversary')
+        if ($anniversaries.length) {
+            $_events = $_events.filter(e => e.type !== 'anniversary')
+        }
+    }
 
     function getWeekNumber(date) {
         const oneJan = new Date(date.getFullYear(), 0, 1)
