@@ -1,14 +1,23 @@
 <script>
     import {getContext} from 'svelte';
+    import { writable } from 'svelte/store';
     import {setContent, toISOString} from '@gd-agenda-view/core';
     import Section from './Section.svelte';
     import Body from './Body.svelte';
     import Day from './Day.svelte';
     import Week from './all-day/Week.svelte';
-    import MoneyWeek from './all-day/MoneyWeek.svelte';
 
-    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, moneySlot, _events} = getContext('state');
-    const anniversaries = $_events.filter(e => e.type == 7)
+    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, allDaySlotOnly, _events} = getContext('state');
+
+    // bad and mutational way to split anniversaries from the rest of the events
+    const anniversaries = writable([])
+
+    // $: {
+    //     $anniversaries = $_events.filter(e => e.type === 'anniversary')
+    //     if ($anniversaries.length) {
+    //         $_events = $_events.filter(e => e.type !== 'anniversary')
+    //     }
+    // }
 
     function getWeekNumber(date) {
         const oneJan = new Date(date.getFullYear(), 0, 1)
@@ -55,7 +64,18 @@
 
 
 
-{#if !$moneySlot}
+{#if $allDaySlotOnly}
+    {#if $allDaySlot}
+    <div class="{$theme.allDay}">
+        <div class="{$theme.content}">
+            <Section>
+                <Week dates={$_viewDates}/>
+            </Section>
+            <div class="{$theme.hiddenScroll}"></div>
+        </div>
+    </div>
+    {/if}
+{:else}
     <div class="ec-top-header">
         <Section>
             {#each $_viewDates as date}
@@ -80,12 +100,14 @@
         <Section>
             {#each $_viewDates as date}
                 {@const formattedDate = formatDateForAgenda(date)}
-                {@const anniversariesToday = anniversaries.filter(ann => {
-                    const annStartDate = new Date(ann.start).toDateString()
-                    const inputDate = new Date(date).toDateString()
-                    if (annStartDate === inputDate) return ann
-                  })
-                }
+                {@const anniversariesToday = $anniversaries.filter(ann => {
+                    const annDate = new Date(ann.start);
+                    return (
+                        annDate.getUTCFullYear() === date.getUTCFullYear() &&
+                        annDate.getUTCMonth() === date.getUTCMonth() &&
+                        annDate.getUTCDate() === date.getUTCDate()
+                    );
+                })}
                 <div class="{$theme.day} {$theme.weekdays?.[date.getUTCDay()]}" role="columnheader">
                     <time
                         datetime="{toISOString(date, 10)}"
@@ -125,15 +147,4 @@
             <Day {date}/>
         {/each}
     </Body>
-{:else}
-    {#if $allDaySlot}
-        <div class="{$theme.allDay}">
-            <div class="{$theme.content}">
-                <Section>
-                    <MoneyWeek dates={$_viewDates}/>
-                </Section>
-                <div class="{$theme.hiddenScroll}"></div>
-            </div>
-        </div>
-    {/if}
 {/if}

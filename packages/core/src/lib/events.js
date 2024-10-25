@@ -11,24 +11,15 @@ export function createEvents(input) {
         resourceIds: Array.isArray(event.resourceIds)
             ? event.resourceIds.map(String)
             : ('resourceId' in event ? [String(event.resourceId)] : []),
-        allDay: event.is_all_day ?? (noTimePart(event.start_time) && noTimePart(event.end_time)),
-        start: createDate(event.start_time),
-        end: createDate(event.end_time),
-        completed: event.is_completed || false,
-        money: event.money || false,
+        allDay: event.allDay ?? (noTimePart(event.start) && noTimePart(event.end)),
+        start: createDate(event.start),
+        end: createDate(event.end),
+        completed: event.completed || false,
         title: event.title || '',
-        details: event.description || '',
-        owner: event.owner_id || '', // calendar_id
-        initials: event.initials || '', // calendar initials
-        type: event.event_type_id || '',
-        typeSlug: event.typeSlug || '', // court, consult, etc
-        participants: event.participants || '', // participants calendar_ids as csv string
-        participantsSlug: event.participantsSlug || '', // participants colored initials as html 
-        location: event.location || '',
-        district: event.court_district_id || '',
-        districtName: event.districtName || '',
-        proceeding: event.court_proceeding_name || '',
-        rate: event.service_rate || '',
+        details: event.details || '',
+        type: event.type || '', // enum string such as court, consult, etc
+        eventSlug: event.eventSlug || '', // colored initials + proceeding/location/etc
+        district: event.district || '', // district name as string
         titleHTML: event.titleHTML || '',
         editable: event.editable,
         startEditable: event.startEditable,
@@ -93,51 +84,27 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : '';
                 const titleElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventTitle, e.title) : '';
                 const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventDetails, e.details) : '';
-                const typeSlugElement = e.hasOwnProperty('typeSlug') ? createElement('div', theme.eventType, e.typeSlug) : '';
-                const initialsElement = e.hasOwnProperty('initials') ? createElement('h4', theme.eventTitle, e.initials) : '';
-                const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventDistrict, e.districtName) : '';
-                const locationElement = e.hasOwnProperty('location') ? createElement('h4', theme.eventTitle, e.location) : '';
-                const combinedLocation = createElement('h4', theme.eventLocation, { html: makeLocationElement(e) })
-                const proceedingElement = e.hasOwnProperty('proceeding') ? createElement('h4', theme.eventTitle, e.proceeding) : '';
-                const rateElement = e.hasOwnProperty('rate') ? createElement('h4', theme.eventTitle, e.rate) : '';
+                const typeElement = e.hasOwnProperty('type') ? createElement('div', theme.eventType, e.type) : '';
+                const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventDistrict, e.district) : '';
+                const eventSlugElement = e.hasOwnProperty('eventSlug') ? createElement('h4', theme.eventSlug, { html: e.eventSlug }) : '';
 
-                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, districtElement, combinedLocation, detailsElement] });
+                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, districtElement, eventSlugElement, detailsElement] });
                 const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
-                const allDayPrefix = e.allDay && !e.money ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
-                const moneyFile = e.allDay && e.money ? createElement('h4', theme.moneyFile, e.title) : '';
-                const moneyDash = e.allDay && e.money ? createElement('h4', theme.moneyDash, '-') : '';
-                const moneyAmount = e.allDay && e.money ? createElement('h4', theme.moneyAmount, e.rate) : '';
-                
+                const allDayPrefix = e.allDay && e.type !== 'receipt' ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
+                const moneyFile = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyFile, e.title) : '';
+                const moneyAmount = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyAmount, e.details) : ''; // convert to a type case and remove rate from component
+
                 domNodes = [...chunk.event.allDay 
-                    ? chunk.event.money 
+                    ? chunk.event.type === 'receipt' 
                         ? [moneyFile, moneyAmount] 
-                        : [allDayPrefix, titleElement, combinedLocation, typeSlugElement]
-                    : [eventData, hoverHandle, typeSlugElement]];
+                        : [allDayPrefix, titleElement, eventSlugElement, typeElement]
+                    : [eventData, hoverHandle, typeElement]];
                 break;
         }
         content = {domNodes};
     }
 
     return [timeText, content];
-}
-
-const makeLocationElement = (e) => {
-    const participants = e['participants'] ? e['participantsSlug'] : ''
-
-    const allDayNoteCase = () => `${participants}`
-    const consultCase = () => `${participants ? participants : ''}$ ${e['rate']} - ${e.location}`
-    const meetingCase = () => `${e['initials']} ${participants}- ${e.location}`
-    const courtCase = () => `${participants ? participants : ''}${e.proceeding ? e.proceeding : ''} ${(e.proceeding && e.location) ? '-' : ''} ${e.location ? e.location : ''}`
-    const defaultCase = () => `${participants ? participants : ''}${(participants && e.location) ? '-' : ''} ${e.location ? e.location : ''}`
-
-    const cases = {
-        'consult': consultCase,
-        'meeting': meetingCase,
-        'court': courtCase,
-        'all-day-note': allDayNoteCase,
-    }
-
-    return cases[e.typeSlug] ? cases[e.typeSlug]() : defaultCase()
 }
 
 function formatTime(date) {
