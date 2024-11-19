@@ -46,7 +46,7 @@
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         let txtColor = bgColor
         let completed = event.completed || false
-        let typeSlug = event.typeSlug
+        let eventType = event.type
         style =
             `top:${top + chunk.column * $slotHeight}px;` + // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
             `min-height:${height}px;` +
@@ -54,10 +54,11 @@
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
+            // holiday always has a single strikethrough regardless if completed or not
             style += `border: 2px solid ${bgColor}; outline: none;`;
-                if (typeSlug === 'holiday') {
-                    style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px));`
-                }
+            if (eventType === 'holiday') {
+                style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px));`
+            }
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -69,10 +70,10 @@
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
         }
-        if (completed && typeSlug !== 'holiday') {
+        if (completed && eventType !== 'holiday') {
             style += `background: ` + 
-                     `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)), ` + 
-                     `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor} , transparent calc(50% + 1.5px)`
+                     `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px)), ` + 
+                     `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px)`
         }
 
         // Class
