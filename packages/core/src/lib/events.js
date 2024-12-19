@@ -20,6 +20,7 @@ export function createEvents(input) {
         type: event.type || '', // enum string such as court, consult, etc
         eventSlug: event.eventSlug || '', // colored initials + proceeding/location/etc
         district: event.district || '', // district name as string
+        url: event.url || '',
         titleHTML: event.titleHTML || '',
         editable: event.editable,
         startEditable: event.startEditable,

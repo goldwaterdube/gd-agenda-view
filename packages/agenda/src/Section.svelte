@@ -1,6 +1,6 @@
 <script>
     import {getContext} from 'svelte';
-    import {setContent} from '@gd-agenda-view/core';
+    // import {setContent} from '@gd-agenda-view/core';
     import {createAllDayContent} from './utils.js';
 
     let {allDayContent, theme, _times} = getContext('state');

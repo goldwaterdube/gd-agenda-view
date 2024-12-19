@@ -1,6 +1,6 @@
 {
   "name": "@gd-agenda-view/build",
-  "version": "2.6.11",
+  "version": "2.6.12",
   "title": "Event Calendar",
   "description": "Full-sized drag & drop event calendar with resource view",
   "keywords": [
@@ -18,10 +18,10 @@
   "license": "MIT",
   "jsdelivr": "gd-agenda-view.min.js",
   "devDependencies": {
-    "@gd-agenda-view/day-grid": "~2.6.11",
-    "@gd-agenda-view/interaction": "~2.6.11",
-    "@gd-agenda-view/list": "~2.6.11",
-    "@gd-agenda-view/time-grid": "~2.6.11",
-    "@gd-agenda-view/resource-time-grid": "~2.6.11"
+    "@gd-agenda-view/day-grid": "~2.6.12",
+    "@gd-agenda-view/interaction": "~2.6.12",
+    "@gd-agenda-view/list": "~2.6.12",
+    "@gd-agenda-view/time-grid": "~2.6.12",
+    "@gd-agenda-view/resource-time-grid": "~2.6.12"
   }
 }
