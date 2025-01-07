@@ -114,7 +114,7 @@
                             <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%;">
                                 {#each anniversariesToday as ann}
                                     <!-- svelte-ignore a11y-missing-content -->
-                                    <a href="/agenda/entries/{ann?.id}" use:setContent={ann?.title} class="ec-day-anniversary"></a>
+                                    <a href="/entries/{ann?.id}" use:setContent={ann?.title} class="ec-day-anniversary"></a>
                                 {/each}
                             </div>
                         </div>
