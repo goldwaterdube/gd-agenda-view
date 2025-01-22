@@ -13,18 +13,19 @@ export function groupEventChunks(chunks) {
         columns: [],
         end: chunks[0].start.getTime()
     };
-    const fiveMinutes = (5 * 60000)
+    const fiveMinutes = (5 * 60000) // also change the Event.svelte slotHeight
+    const tenMinutes = (10 * 60000) // also change the Event.svelte slotHeight
     for (let chunk of chunks) {
         let shift = 0;
         if (chunk.start < group.end) {
-            shift = (group.end - chunk.start) / fiveMinutes
-            chunk.end = new Date(Math.max(chunk.start.getTime() + fiveMinutes, chunk.end.getTime() - (shift * fiveMinutes)))
-            group.end = group.end + fiveMinutes;
+            shift = (group.end - chunk.start) / tenMinutes
+            chunk.end = new Date(Math.max(chunk.start.getTime() + tenMinutes, chunk.end.getTime() - (shift * tenMinutes)))
+            group.end = group.end + tenMinutes
         } else {
             shift = 0
             group = {
                 columns: [],
-                end: chunk.start.getTime() + fiveMinutes
+                end: chunk.start.getTime() + tenMinutes
             };
         }
 

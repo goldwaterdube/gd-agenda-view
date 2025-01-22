@@ -48,7 +48,9 @@
         let completed = event.completed || false
         let eventType = event.type
         style =
-            `top:${top + chunk.column * $slotHeight}px;` + // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
+            // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
+            // `top:${top + chunk.column * $slotHeight}px;` + // next event shifted down one row
+            `top:${top + (chunk.column * 2) * $slotHeight}px;` + // next event shifted down two rows
             `min-height:${height}px;` +
             `height:${height}px;` +
             `max-height:${maxHeight}px;`
