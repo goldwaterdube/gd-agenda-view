@@ -359,13 +359,13 @@
         padding-left: auto;
       }
 
-      .ec-event-header-slim {
+      .ec-event-slim-title {
         width: 100%;
         text-align: left;
         margin: 0;
       }
 
-      .ec-event-header-main {
+      .ec-event-header-title {
         width: 100%;
         text-align: center;
         margin: 0;
@@ -394,7 +394,7 @@
           1px 0px 0 #fff;
         }
 
-        .ec-event-header-slim {
+        .ec-event-slim-title {
           position: absolute;
           top: -1.5px;
           width: 100%;
@@ -403,7 +403,7 @@
           line-height: 12px;
         }
 
-        .ec-event-header-main {
+        .ec-event-header-title {
           position: absolute;
           top: -1.5px;
           width: 100%;
@@ -478,7 +478,7 @@
           white-space: nowrap;
         }
 
-        .ec-event-slug {
+        .ec-event-slim-details {
           position: absolute;
           white-space: nowrap;
           top: -1.5px;
@@ -917,7 +917,7 @@
   margin-right: 8px;
 }
 
-.ec-event-header-main {
+.ec-event-header-title {
   overflow: hidden;
   margin: unset;
   font-weight: inherit;
