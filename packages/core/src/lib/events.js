@@ -3,6 +3,7 @@ import {createElement} from './dom';
 import {assign} from './utils';
 import {toViewWithLocalDates} from './view';
 import {is_function} from 'svelte/internal';
+import {get} from 'svelte/store'
 
 let eventId = 1;
 export function createEvents(input) {
@@ -15,11 +16,15 @@ export function createEvents(input) {
         start: createDate(event.start),
         end: createDate(event.end),
         completed: event.completed || false,
-        title: event.title || '',
+        title: event.title || '', // component receives html
         details: event.details || '',
         type: event.type || '', // enum string such as court, consult, etc
-        eventSlug: event.eventSlug || '', // colored initials + proceeding/location/etc
-        district: event.district || '', // district name as string
+        district: event.district || '', // component receives a string
+        proceeding: event.proceeding || '',
+        location: event.location || '', // component receives a string
+        ownerInitials: event.ownerInitials || '', // component receives a string
+        participantInitials: event.participantInitials || '', // component receives html
+        eventSlug: event.eventSlug || '', // component receives html
         url: event.url || '',
         titleHTML: event.titleHTML || '',
         editable: event.editable,
@@ -83,23 +88,90 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
             default:
                 const e = chunk.event;
                 const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : '';
-                const titleElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventTitle, e.title) : '';
-                const detailsElement = e.hasOwnProperty('details') ? createElement('h4', theme.eventDetails, e.details) : '';
                 const typeElement = e.hasOwnProperty('type') ? createElement('div', theme.eventType, e.type) : '';
-                const districtElement = e.hasOwnProperty('district') ? createElement('h4', theme.eventDistrict, e.district) : '';
-                const eventSlugElement = e.hasOwnProperty('eventSlug') ? createElement('h4', theme.eventSlug, { html: e.eventSlug }) : '';
+                const headerMainElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventHeaderMain, {
+                    html: `${e.title} ${e.participantInitials ? `(${e.participantInitials})` : ''}`
+                }) : '';
+                const headerSlimElement = e.hasOwnProperty('title') ? createElement('h4', theme.eventHeaderSlim, e.title) : '';
+                const ownerAndParticipantsElement = createElement('h4', theme.eventSlug, { 
+                    html: `<span style="white-space: nowrap;">${e?.ownerInitials} ${e?.participantInitials}</span>`
+                });
 
-                const eventData = createElement('div', 'ec-event-header', { domNodes: [timeElement, titleElement, districtElement, eventSlugElement, detailsElement] });
-                const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
-                const allDayPrefix = e.allDay && e.type !== 'receipt' ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
-                const moneyFile = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyFile, e.title) : '';
-                const moneyAmount = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyAmount, e.details) : ''; // convert to a type case and remove rate from component
+                // Conditional content based on event type
+                let bottomLeft = '', bottomRight = '', bottomOverlay = '', bottomHover = '';
+                let leftStyle = [], rightStyle = [], overlayStyle = [];
+
+                if (e.type === 'consult') {
+                    bottomLeft = e.location || '';
+                    bottomRight = e.ownerInitials || '';
+                    leftStyle = [['style', `text-align: center`]];
+                    rightStyle = [['style', `text-align: center; border-left: 2px solid; border-top: 2px solid; box-sizing: border-box; margin-top: -1px; line-height: 11px`]];
+                } else if (e.type === 'meeting') {
+                    bottomLeft = e.location || '';
+                    bottomRight = e.ownerInitials || '';
+                    leftStyle = [['style', `text-align: center`]];
+                    rightStyle = [['style', `text-align: center; border-left: 2px solid; border-top: 2px solid; box-sizing: border-box; margin-top: -1px; line-height: 11px`]];
+                } else if (e.type === 'court') {
+                    bottomHover = e.details || '';
+                    bottomOverlay = e.district || '';
+                    bottomLeft = e.proceeding || '';
+                    bottomRight = e.location || '';
+                    overlayStyle = [['style', `text-transform: uppercase; color: red;`]];
+                } else if (e.type === 'admin') {
+                    bottomOverlay = e.location || '';
+                }
+
+                const headerBottomHoverElement = bottomHover ? createElement('h4', theme.eventHeaderBottomHover, bottomHover) : '';
+                const headerBottomOverlayElement = bottomOverlay ? createElement('h4', theme.eventHeaderBottomOverlay, bottomOverlay, overlayStyle) : '';
+                const headerBottomLeftElement = bottomLeft ? createElement('h4', theme.eventHeaderBottomLeft, bottomLeft, leftStyle) : '';
+                const headerBottomRightElement = bottomRight ? createElement('h4', theme.eventHeaderBottomRight, bottomRight, rightStyle) : '';
+                
+                // Calculate duration in minutes
+                const durationMinutes = (chunk.end - chunk.start) / (1000 * 60);
+                const headerBottomBorderElement = (e.type !== 'holiday' && e.type !== 'admin' && durationMinutes >= 11) ? createElement('div', 'ec-event-header-bottom-border', '') : '';
+                
+                let headerNodes = [];
+                switch (e.type) {
+                    case 'court':
+                        headerNodes = [
+                            timeElement,
+                            headerMainElement,
+                            headerBottomLeftElement,
+                            headerBottomRightElement,
+                            headerBottomHoverElement,
+                            headerBottomOverlayElement,
+                            headerBottomBorderElement,
+                        ];
+                        break;
+                    case 'consult':
+                    case 'meeting':
+                        headerNodes = [
+                            timeElement,
+                            headerMainElement,
+                            headerBottomLeftElement,
+                            headerBottomRightElement,
+                            headerBottomBorderElement,
+                        ];
+                        break;
+                    default:
+                        headerNodes = [
+                            timeElement,
+                            headerMainElement,
+                            headerBottomOverlayElement,
+                        ];
+                }
+                
+                const eventHeaderElement = createElement('div', 'ec-event-header', { domNodes: headerNodes });
+                const hoverHandleElement = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
+                const allDayPrefixElement = e.allDay && e.type !== 'receipt' ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
+                const moneyFileElement = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyFile, e.title) : '';
+                const moneyAmountElement = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyAmount, e.details) : '';
 
                 domNodes = [...chunk.event.allDay 
                     ? chunk.event.type === 'receipt' 
-                        ? [moneyFile, moneyAmount] 
-                        : [allDayPrefix, titleElement, eventSlugElement, typeElement]
-                    : [eventData, hoverHandle, typeElement]];
+                        ? [moneyFileElement, moneyAmountElement] 
+                        : [allDayPrefixElement, headerSlimElement, ownerAndParticipantsElement, typeElement]
+                    : [eventHeaderElement, hoverHandleElement, typeElement]];
                 break;
         }
         content = {domNodes};
@@ -114,12 +186,23 @@ function formatTime(date) {
     return `${hours}:${minutes}`;
   }  
 
+const TIME_HIGHLIGHT_COLOR = '#fff8e0' // solid yellow to match current day grid alpha color
+// const TODAY = new Date()
+
 function createTimeElement(timeText, chunk, theme) {
+    // const timeFillColor = TIME_HIGHLIGHT_COLOR
+    // const isToday = chunk.start.getFullYear() === TODAY.getFullYear() &&
+    //                 chunk.start.getMonth() === TODAY.getMonth() &&
+    //                 chunk.start.getDate() === TODAY.getDate()
+    // const fillColor = isToday ? timeFillColor : 'white'
     return createElement(
         'time',
         theme.eventTime,
         timeText,
-        [['datetime', toISOString(chunk.start)]]
+        [
+            ['datetime', toISOString(chunk.start)],
+            ['style', `background-color: ${'white'};`],
+        ]
     );
 }
 

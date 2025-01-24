@@ -51,7 +51,7 @@
             // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
             // `top:${top + chunk.column * $slotHeight}px;` + // next event shifted down one row
             `top:${top + (chunk.column * 2) * $slotHeight}px;` + // next event shifted down two rows
-            `min-height:${height}px;` +
+            `min-height:${height + 1}px;` + // was too small to look right
             `height:${height}px;` +
             `max-height:${maxHeight}px;`
         ;
@@ -75,7 +75,7 @@
         if (completed && eventType !== 'holiday') {
             style += `background: ` + 
                      `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px)), ` + 
-                     `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px)`
+                     `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px))`
         }
 
         // Class
