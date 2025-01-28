@@ -94,7 +94,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     
                     const classMap = {
                         title: theme.eventTitle,
-                        details: theme.eventOneLineDetails,
+                        oneLineDetails: theme.eventOneLineDetails,
                         headerBottomLeft: theme.eventHeaderBottomLeft,
                         headerBottomRight: theme.eventHeaderBottomRight,
                         headerBottomHover: theme.eventHeaderBottomHover,
@@ -113,7 +113,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     domNodes = [
                         allDayPrefix,
                         createElementFromStructure('title', e.content?.headerTitle),
-                        createElementFromStructure('details', e.content?.headerDetails)
+                        createElementFromStructure('eventOneLineDetails', e.content?.oneLineDetails)
                     ].filter(Boolean);
                 } else {
                     const headerNodes = [timeElement];
@@ -124,7 +124,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     }
                     
                     // Add bottom elements
-                    ['headerBottomLeft', 'headerBottomRight', 'headerBottomHover', 'headerBottomOverlay', 'headerBottomBorder']
+                    ['headerBottomLeft', 'headerBottomRight', 'headerBottomHover', 'headerBottomOverlay', 'headerBottomBorder', 'oneLineDetails']
                         .forEach(key => {
                             if (e.content?.[key]) {
                                 headerNodes.push(createElementFromStructure(key, e.content[key]));
