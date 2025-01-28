@@ -67,7 +67,7 @@
         }
         if (!bgEvent(display) && !helperEvent(display) || ghostEvent(display)) {
             style +=
-                `z-index:${Math.floor(start)}; ` +  // later events appear on top
+                `z-index:${Math.floor(start/60) + 2}; ` +  // later events appear on top, but z-range is reasonable
                 `left:${$slotEventOverlap ? 0 : 0 }%;` +
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
