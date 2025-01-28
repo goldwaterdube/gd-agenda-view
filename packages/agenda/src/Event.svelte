@@ -67,7 +67,7 @@
         }
         if (!bgEvent(display) && !helperEvent(display) || ghostEvent(display)) {
             style +=
-                `z-index:${chunk.column + 1};` +
+                `z-index:${Math.floor(start)}; ` +  // later events appear on top
                 `left:${$slotEventOverlap ? 0 : 0 }%;` +
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
