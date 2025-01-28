@@ -209,6 +209,11 @@
     position: absolute;
     padding: 0;
 
+    // Hour delimiter line to be darker
+    .ec-time:nth-child(12n+1)::after {
+      border-bottom: 1px solid var(--ec-border-color-dark);
+    }
+
     // Make every full hour bold
     .ec-time:nth-child(12n+1) {
       font-weight: 900;
@@ -558,6 +563,11 @@
   /* Make every third line have a solid border */
   .ec-body:not(.ec-compact) .ec-line:nth-child(3n+1):after {
     border-bottom: 1px solid var(--ec-border-color);
+  }
+
+  /* Make every 12th line have a darker border to distinguish hours */
+  .ec-body:not(.ec-compact) .ec-line:nth-child(12n+1):after {
+    border-bottom: 1px solid var(--ec-border-color-dark);
   }
 }
 
