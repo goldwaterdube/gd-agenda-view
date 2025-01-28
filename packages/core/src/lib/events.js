@@ -82,10 +82,18 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
             case 'background':
                 break;
             case 'pointer':
-                domNodes = [createTimeElement(timeText, chunk, theme)];
+                domNodes = [createStyledElement('time', theme.eventTime, {
+                    html: formatTime(chunk.start),
+                    style: e.content?.time?.style || {},
+                    attributes: [['datetime', toISOString(chunk.start)]]
+                })];
                 break;
             default:
-                const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : '';
+                const timeElement = e.hasOwnProperty('start') ? createStyledElement('time', theme.eventTime, {
+                    html: formatTime(chunk.start),
+                    style: e.content?.time?.style || {},
+                    attributes: [['datetime', toISOString(chunk.start)]]
+                }) : '';
                 const typeElement = e.hasOwnProperty('type') ? createStyledElement('div', theme.eventType, e.type) : '';
                 
                 // Create elements from content structure
@@ -149,27 +157,10 @@ function formatTime(date) {
     const hours = date.getUTCHours().toString();
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
-  }  
+}  
 
 const TIME_HIGHLIGHT_COLOR = '#fff8e0' // solid yellow to match current day grid alpha color
 // const TODAY = new Date()
-
-function createTimeElement(timeText, chunk, theme) {
-    // const timeFillColor = TIME_HIGHLIGHT_COLOR
-    // const isToday = chunk.start.getFullYear() === TODAY.getFullYear() &&
-    //                 chunk.start.getMonth() === TODAY.getMonth() &&
-    //                 chunk.start.getDate() === TODAY.getDate()
-    // const fillColor = isToday ? timeFillColor : 'white'
-    return createStyledElement(
-        'time',
-        theme.eventTime,
-        timeText,
-        [
-            ['datetime', toISOString(chunk.start)],
-            ['style', `background-color: ${'white'};`],
-        ]
-    );
-}
 
 export function createEventClasses(eventClassNames, event, _view) {
     if (eventClassNames) {
@@ -344,6 +335,10 @@ function createStyledElement(tag, className, content) {
                     element.style[prop] = value;
                 });
             }
+        } else if (content.attributes) {
+            content.attributes.forEach(([key, value]) => {
+                element.setAttribute(key, value);
+            });
         }
     }
 
