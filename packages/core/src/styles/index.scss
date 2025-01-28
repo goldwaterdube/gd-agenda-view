@@ -736,6 +736,14 @@
 .ec-day-column {
   display: flex;
   position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    right: 12px;
+    height: 100%;
+    border-right: 1px solid var(--ec-border-color);
+  }
 }
 
 .ec-day {
