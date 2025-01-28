@@ -1,5 +1,4 @@
 import {addDay, datesEqual, createDate, cloneDate, setMidnight, toLocalDate, toISOString, noTimePart, copyTime} from './date';
-import {createElement} from './dom';
 import {assign} from './utils';
 import {toViewWithLocalDates} from './view';
 import {is_function} from 'svelte/internal';
@@ -23,6 +22,7 @@ export function createEvents(input) {
         location: event.location || '', // component receives a string
         ownerInitials: event.ownerInitials || '', // component receives a string
         participantInitials: event.participantInitials || '', // component receives html
+        content: event.content || '',
         url: event.url || '',
         titleHTML: event.titleHTML || '',
         editable: event.editable,
@@ -61,13 +61,13 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
     let timeText = _intlEventTime.formatRange(
         chunk.start,
         displayEventEnd && chunk.event.display !== 'pointer'
-            ? copyTime(cloneDate(chunk.start), chunk.end)  // make Intl.formatRange output only the time part
+            ? copyTime(cloneDate(chunk.start), chunk.end)
             : chunk.start
     );
-    let content;
+    let resultContent;
 
     if (eventContent) {
-        content = is_function(eventContent)
+        resultContent = is_function(eventContent)
             ? eventContent({
                 event: toEventWithLocalDates(chunk.event),
                 timeText,
@@ -75,114 +75,74 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
             })
             : eventContent;
     } else {
-        let domNodes;
-        switch (chunk.event.display) {
+        const e = chunk.event;
+        let domNodes = [];
+
+        switch (e.display) {
             case 'background':
-                domNodes = [];
                 break;
             case 'pointer':
                 domNodes = [createTimeElement(timeText, chunk, theme)];
                 break;
             default:
-                const e = chunk.event;
                 const timeElement = e.hasOwnProperty('start') ? createTimeElement(formatTime(e.start), chunk, theme) : '';
-                const typeElement = e.hasOwnProperty('type') ? createElement('div', theme.eventType, e.type) : '';
+                const typeElement = e.hasOwnProperty('type') ? createStyledElement('div', theme.eventType, e.type) : '';
                 
-
-                // Calculate bottom border element
-                const durationMinutes = (chunk.end - chunk.start) / (1000 * 60);
-                const headerBottomBorder = (e.type !== 'holiday' && e.type !== 'admin' && durationMinutes >= 11) 
-                    ? createElement('div', 'ec-event-header-bottom-border', '') 
-                    : '';
-
-                // Create header elements based on event type
-                const createHeaderElements = () => {
-                    const elements = {
-                        headerTitle: createElement('h4', theme.eventHeaderTitle, {
-                            html: `${e.title} ${e.participantInitials ? `(${e.participantInitials})` : ''}`
-                        }),
-                        headerSlimTitle: createElement('h4', theme.eventSlimTitle, e.title),
-                        ownerAndParticipants: createElement('h4', theme.eventSlimDetails, { 
-                            html: `<span style="white-space: nowrap;">${e?.ownerInitials} ${e?.participantInitials}</span>`
-                        })
+                // Create elements from content structure
+                const createElementFromStructure = (key, structureItem) => {
+                    if (!structureItem) return null;
+                    
+                    const classMap = {
+                        title: theme.eventTitle,
+                        details: theme.eventOneLineDetails,
+                        headerBottomLeft: theme.eventHeaderBottomLeft,
+                        headerBottomRight: theme.eventHeaderBottomRight,
+                        headerBottomHover: theme.eventHeaderBottomHover,
+                        headerBottomOverlay: theme.eventHeaderBottomOverlay,
+                        headerBottomBorder: 'ec-event-header-bottom-border'
                     };
-                    return elements;
+
+                    return createStyledElement('h4', classMap[key] || '', {
+                        html: structureItem.content,
+                        style: structureItem.style
+                    });
                 };
 
-                // Create bottom elements based on event type
-                const createBottomElements = () => {
-                    const config = {
-                        consult: {
-                            left: { text: e.location, style: [['style', `text-align: center`]] },
-                            right: { text: e.ownerInitials, style: [['style', `text-align: center; border-left: 2px solid; border-top: 2px solid; box-sizing: border-box; margin-top: -1px; line-height: 11px`]] }
-                        },
-                        meeting: {
-                            left: { text: e.location, style: [['style', `text-align: center`]] },
-                            right: { text: e.ownerInitials, style: [['style', `text-align: center; border-left: 2px solid; border-top: 2px solid; box-sizing: border-box; margin-top: -1px; line-height: 11px`]] }
-                        },
-                        court: {
-                            hover: e.details,
-                            overlay: { text: e.district, style: [['style', `text-transform: uppercase; color: red;`]] },
-                            left: { text: e.proceeding },
-                            right: { text: e.location }
-                        },
-                        admin: {
-                            overlay: { text: e.location }
-                        }
-                    };
-
-                    const eventConfig = config[e.type] || {};
+                if (e.allDay) {
+                    const allDayPrefix = e.content?.headerTitle?.prefix ? createStyledElement('h4', theme.allDayPrefix, e.content.headerTitle.prefix) : '';
+                    domNodes = [
+                        allDayPrefix,
+                        createElementFromStructure('title', e.content?.headerTitle),
+                        createElementFromStructure('details', e.content?.headerDetails),
+                        typeElement
+                    ].filter(Boolean);
+                } else {
+                    const headerNodes = [timeElement];
                     
-                    return {
-                        hover: eventConfig.hover ? createElement('h4', theme.eventHeaderBottomHover, eventConfig.hover) : '',
-                        overlay: eventConfig.overlay ? createElement('h4', theme.eventHeaderBottomOverlay, eventConfig.overlay.text, eventConfig.overlay.style) : '',
-                        left: eventConfig.left ? createElement('h4', theme.eventHeaderBottomLeft, eventConfig.left.text, eventConfig.left.style) : '',
-                        right: eventConfig.right ? createElement('h4', theme.eventHeaderBottomRight, eventConfig.right.text, eventConfig.right.style) : ''
-                    };
-                };
-
-                const headerElements = createHeaderElements();
-                const bottomElements = createBottomElements();
-
-                // Determine header nodes based on event type
-                const getHeaderNodes = () => { ;
-                    const baseNodes = [timeElement];
-                    
-                    if (e.type === 'admin' && durationMinutes <= 5) {
-                        return [...baseNodes, headerElements.headerSlimTitle, headerElements.ownerAndParticipants];
+                    // Add header content
+                    if (e.content?.headerTitle) {
+                        headerNodes.push(createElementFromStructure('title', e.content.headerTitle));
                     }
                     
-                    baseNodes.push(headerElements.headerTitle);
+                    // Add bottom elements
+                    ['headerBottomLeft', 'headerBottomRight', 'headerBottomHover', 'headerBottomOverlay', 'headerBottomBorder']
+                        .forEach(key => {
+                            if (e.content?.[key]) {
+                                headerNodes.push(createElementFromStructure(key, e.content[key]));
+                            }
+                        });
+
+                    const eventHeader = createStyledElement('div', 'ec-event-header', { domNodes: headerNodes });
+                    const hoverHandle = createStyledElement('div', theme.eventHoverHandle, '');
                     
-                    switch (e.type) {
-                        case 'court':
-                            return [...baseNodes, bottomElements.left, bottomElements.right, 
-                                   bottomElements.hover, bottomElements.overlay, headerBottomBorder];
-                        case 'consult':
-                        case 'meeting':
-                            return [...baseNodes, bottomElements.left, bottomElements.right, headerBottomBorder];
-                        default:
-                            return [...baseNodes, bottomElements.overlay];
-                    }
-                };
-
-                const eventHeader = createElement('div', 'ec-event-header', { domNodes: getHeaderNodes() });
-                const hoverHandle = !e.allDay ? createElement('div', theme.eventHoverHandle, '') : '';
-                const allDayPrefix = e.allDay && e.type !== 'receipt' ? createElement('h4', theme.allDayPrefix, 'Note: ') : '';
-                const moneyFile = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyFile, e.title) : '';
-                const moneyAmount = e.allDay && e.type === 'receipt' ? createElement('h4', theme.moneyAmount, e.details) : '';
-
-                domNodes = [...chunk.event.allDay 
-                    ? chunk.event.type === 'receipt' 
-                        ? [moneyFile, moneyAmount] 
-                        : [allDayPrefix, headerElements.headerSlimTitle, headerElements.ownerAndParticipants, typeElement]
-                    : [eventHeader, hoverHandle, typeElement]];
+                    domNodes = [eventHeader, hoverHandle, typeElement];
+                }
                 break;
         }
-        content = {domNodes};
+        resultContent = {domNodes};
     }
 
-    return [timeText, content];
+    return [timeText, resultContent];
 }
 
 function formatTime(date) {
@@ -200,7 +160,7 @@ function createTimeElement(timeText, chunk, theme) {
     //                 chunk.start.getMonth() === TODAY.getMonth() &&
     //                 chunk.start.getDate() === TODAY.getDate()
     // const fillColor = isToday ? timeFillColor : 'white'
-    return createElement(
+    return createStyledElement(
         'time',
         theme.eventTime,
         timeText,
@@ -364,4 +324,28 @@ export function ghostEvent(display) {
 
 export function pointerEvent(display) {
     return display === 'pointer';
+}
+
+function createStyledElement(tag, className, content) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+
+    if (content) {
+        if (typeof content === 'string') {
+            element.innerHTML = content;
+        } else if (content.domNodes) {
+            content.domNodes.forEach(node => {
+                if (node) element.appendChild(node);
+            });
+        } else if (content.html) {
+            element.innerHTML = content.html;
+            if (content.style) {
+                Object.entries(content.style).forEach(([prop, value]) => {
+                    element.style[prop] = value;
+                });
+            }
+        }
+    }
+
+    return element;
 }

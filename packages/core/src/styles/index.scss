@@ -336,36 +336,8 @@
         margin: 0;
         text-align: right;
       }
-      
-      .ec-money-file {
-        width: 170px;
-        margin: 0;
-        text-align: right;
-        padding-right: 10px;
-      }
 
-      .ec-money-file::after {
-        content: " -";
-        font-size: inherit;
-        color: inherit;
-        margin-left: 12px;
-      }
-
-      .ec-money-amount {
-        width: 100px;
-        text-align: right;
-        line-height: 12px;
-        margin: 0;
-        padding-left: auto;
-      }
-
-      .ec-event-slim-title {
-        width: 100%;
-        text-align: left;
-        margin: 0;
-      }
-
-      .ec-event-header-title {
+      .ec-event-title {
         width: 100%;
         text-align: center;
         margin: 0;
@@ -394,16 +366,7 @@
           1px 0px 0 #fff;
         }
 
-        .ec-event-slim-title {
-          position: absolute;
-          top: -1.5px;
-          width: 100%;
-          margin-left: 34px;
-          text-align: left;
-          line-height: 12px;
-        }
-
-        .ec-event-header-title {
+        .ec-event-title {
           position: absolute;
           top: -1.5px;
           width: 100%;
@@ -478,7 +441,7 @@
           white-space: nowrap;
         }
 
-        .ec-event-slim-details {
+        .ec-event-one-line-details {
           position: absolute;
           white-space: nowrap;
           top: -1.5px;
@@ -917,7 +880,7 @@
   margin-right: 8px;
 }
 
-.ec-event-header-title {
+.ec-event-title {
   overflow: hidden;
   margin: unset;
   font-weight: inherit;
