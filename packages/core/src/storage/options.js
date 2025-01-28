@@ -86,7 +86,6 @@ export function createOptions(plugins) {
             eventOneLineDetails: 'ec-event-one-line-details',
             eventHoverHandle: 'ec-event-hover-handle',
             eventTime: 'ec-event-time',
-            eventType: 'ec-event-type',
             events: 'ec-events',
             extra: 'ec-extra',
             handle: 'ec-handle',

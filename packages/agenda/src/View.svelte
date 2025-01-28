@@ -10,7 +10,7 @@
     let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, allDaySlotOnly, _events} = getContext('state');
 
     const anniversaries = derived(_events, $events => 
-        $events.filter(event => event.type === 'anniversary')
+        $events.filter(event => event.kind === 'anniversary')
     )
 
     function getWeekNumber(date) {
@@ -114,7 +114,11 @@
                             <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%;">
                                 {#each anniversariesToday as ann}
                                     <!-- svelte-ignore a11y-missing-content -->
-                                    <a href="/entries/{ann?.id}" use:setContent={ann?.title} class="ec-day-anniversary"></a>
+                                    <a href="/entries/{ann?.id}" 
+                                       use:setContent={ann?.content?.headerTitle.content}
+                                       class="ec-day-anniversary"
+                                       style={ann?.content?.headerTitle?.style ? Object.entries(ann.content.headerTitle.style).map(([key, value]) => `${key}:${value}`).join(';') : ''}>
+                                    </a>
                                 {/each}
                             </div>
                         </div>

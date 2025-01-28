@@ -14,14 +14,7 @@ export function createEvents(input) {
         start: createDate(event.start),
         end: createDate(event.end),
         completed: event.completed || false,
-        title: event.title || '', // component receives html
-        details: event.details || '',
-        type: event.type || '', // enum string such as court, consult, etc
-        district: event.district || '', // component receives a string
-        proceeding: event.proceeding || '',
-        location: event.location || '', // component receives a string
-        ownerInitials: event.ownerInitials || '', // component receives a string
-        participantInitials: event.participantInitials || '', // component receives html
+        kind: event.kind || '', // enum string such as court, consult, etc
         content: event.content || '',
         url: event.url || '',
         titleHTML: event.titleHTML || '',
@@ -94,7 +87,6 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     style: e.content?.time?.style || {},
                     attributes: [['datetime', toISOString(chunk.start)]]
                 }) : '';
-                const typeElement = e.hasOwnProperty('type') ? createStyledElement('div', theme.eventType, e.type) : '';
                 
                 // Create elements from content structure
                 const createElementFromStructure = (key, structureItem) => {
@@ -121,8 +113,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     domNodes = [
                         allDayPrefix,
                         createElementFromStructure('title', e.content?.headerTitle),
-                        createElementFromStructure('details', e.content?.headerDetails),
-                        typeElement
+                        createElementFromStructure('details', e.content?.headerDetails)
                     ].filter(Boolean);
                 } else {
                     const headerNodes = [timeElement];
@@ -143,7 +134,7 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                     const eventHeader = createStyledElement('div', 'ec-event-header', { domNodes: headerNodes });
                     const hoverHandle = createStyledElement('div', theme.eventHoverHandle, '');
                     
-                    domNodes = [eventHeader, hoverHandle, typeElement];
+                    domNodes = [eventHeader, hoverHandle];
                 }
                 break;
         }

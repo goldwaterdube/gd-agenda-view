@@ -17,7 +17,7 @@
     export let date;
     export let chunk;
 
-    let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor,eventColor, eventContent, eventClick,
+    let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor, eventColor, eventContent, eventClick,
         eventDidMount, eventClassNames, eventMouseEnter, eventMouseLeave, slotEventOverlap, slotDuration, slotHeight, theme,
         _view, _intlEventTime, _interaction, _iClasses, _resBgColor, _resTxtColor, _slotTimeLimits, _tasks} = getContext('state');
 
@@ -46,7 +46,7 @@
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         let txtColor = bgColor
         let completed = event.completed || false
-        let eventType = event.type
+        let eventKind = event.kind
         style =
             // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
             // `top:${top + chunk.column * $slotHeight}px;` + // next event shifted down one row
@@ -58,7 +58,7 @@
         if (bgColor) {
             // holiday always has a single strikethrough regardless if completed or not
             style += `border: 2px solid ${bgColor}; outline: none;`;
-            if (eventType === 'holiday') {
+            if (eventKind === 'holiday') {
                 style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px));`
             }
         }
@@ -72,7 +72,7 @@
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
         }
-        if (completed && eventType !== 'holiday') {
+        if (completed && eventKind !== 'holiday') {
             style += `background: ` + 
                      `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px)), ` + 
                      `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px))`
