@@ -1,6 +1,6 @@
 {
   "name": "@gd-agenda-view/list",
-  "version": "2.6.15",
+  "version": "2.6.16",
   "title": "Event Calendar List plugin",
   "description": "Full-sized drag & drop event calendar with resource view",
   "keywords": [
@@ -26,7 +26,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@gd-agenda-view/core": "~2.6.15",
+    "@gd-agenda-view/core": "~2.6.16",
     "svelte": "^4.2.8"
   }
 }

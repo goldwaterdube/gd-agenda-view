@@ -20,7 +20,12 @@
     $: {
         dayChunks = [];
         for (let chunk of chunks) {
-            if (datesEqual(chunk.date, date)) {
+            const currentDate = new Date(date);
+            currentDate.setUTCHours(0, 0, 0, 0);
+            const nextDate = new Date(currentDate);
+            nextDate.setUTCDate(currentDate.getUTCDate() + 1);
+            
+            if (chunk.start < nextDate && chunk.end > currentDate) {
                 dayChunks.push(chunk);
             }
         }
