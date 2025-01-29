@@ -18,17 +18,9 @@
     let refs = [];
 
     $: {
-        dayChunks = [];
-        for (let chunk of chunks) {
-            const currentDate = new Date(date);
-            currentDate.setUTCHours(0, 0, 0, 0);
-            const nextDate = new Date(currentDate);
-            nextDate.setUTCDate(currentDate.getUTCDate() + 1);
-            
-            if (chunk.start < nextDate && chunk.end > currentDate) {
-                dayChunks.push(chunk);
-            }
-        }
+        dayChunks = chunks.filter(chunk => {
+            return chunk.dates.some(chunkDate => datesEqual(chunkDate, date));
+        });
     }
 
     $: isToday = datesEqual(date, $_today);

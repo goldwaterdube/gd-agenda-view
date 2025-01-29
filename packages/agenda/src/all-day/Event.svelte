@@ -41,9 +41,9 @@
         let bgColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
         let txtColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         style =
-            `width:calc(${chunk.days * 100}% + ${(chunk.days - 1) * 7}px);` +
-            `height:${$slotHeight};` +
-            `margin-top:${margin}px;`
+            `width: 100%;` + // ours aren't spanning so they all have the same width
+            `height: ${slotHeight}px;` + 
+            `margin-top: 1px;` // ours aren't nested so they all have the same height
         ;
         if (bgColor) {
             style += `background-color:${bgColor};`;
