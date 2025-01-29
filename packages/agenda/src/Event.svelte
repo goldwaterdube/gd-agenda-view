@@ -52,7 +52,7 @@
             // `top:${top + chunk.column * $slotHeight}px;` + // next event shifted down one row
             `top:${top + (chunk.column * 2) * $slotHeight}px;` + // next event shifted down two rows
             `min-height:${height + 1}px;` + // was too small to look right
-            `height:${height}px;` +
+            `height:${height + 2}px;` + // extend box to overlap lines perfectly
             `max-height:${maxHeight}px;`
         ;
         if (bgColor) {
