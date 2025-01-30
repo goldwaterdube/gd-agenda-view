@@ -42,7 +42,7 @@
         let txtColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         style =
             `width: 100%;` + // ours aren't spanning so they all have the same width
-            `height: ${slotHeight}px;` + 
+            `height: ${$slotHeight}px;` + 
             `margin-top: 1px;` // ours aren't nested so they all have the same height
         ;
         if (bgColor) {
