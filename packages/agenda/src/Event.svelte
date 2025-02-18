@@ -45,8 +45,6 @@
         let maxHeight = ($_slotTimeLimits.max.seconds / 60 - start) / step * $slotHeight;
         let bgColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
         let txtColor = bgColor
-        let completed = event.completed || false
-        let eventKind = event.kind
         style =
             // bug: this dynamic positioning makes the event hover on 8:00 during drag and resize, but these two features should likely be disabled anyway
             // `top:${top + chunk.column * $slotHeight}px;` + // next event shifted down one row
@@ -58,9 +56,6 @@
         if (bgColor) {
             // holiday always has a single strikethrough regardless if completed or not
             style += `border: 2px solid ${bgColor}; outline: none;`;
-            if (eventKind === 'holiday') {
-                style += `background: linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px));`
-            }
         }
         if (txtColor) {
             style += `color:${txtColor};`;
@@ -72,10 +67,9 @@
                 `width:${$slotEventOverlap ? 98 : 98 }%;`
             ;
         }
-        if (completed && eventKind !== 'holiday') {
-            style += `background: ` + 
-                     `linear-gradient(to top right, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px)), ` + 
-                     `linear-gradient(to top left, transparent calc(50% - 1.5px), ${bgColor}, transparent calc(50% + 1.5px))`
+
+        if (event.content?.bodyStyleInline) {
+            style += event.content.bodyStyleInline;
         }
 
         // Class

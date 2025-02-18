@@ -52,8 +52,8 @@
             style += `color:${txtColor};`;
         }
 
-        if (completed) {
-            style += `text-decoration: line-through; text-decoration-thickness: 1.5px;`
+        if (event.content?.bodyStyleInline) {
+            style += event.content.bodyStyleInline;
         }
 
         classes = [
