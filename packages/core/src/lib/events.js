@@ -16,7 +16,6 @@ export function createEvents(input) {
         kind: event.kind || '', // enum string such as court, consult, etc
         status: event.status || '', // enum string such as completed, cancelled, tentative, etc
         content: event.content || '',
-        url: event.url || '',
         titleHTML: event.titleHTML || '',
         editable: event.editable,
         startEditable: event.startEditable,
