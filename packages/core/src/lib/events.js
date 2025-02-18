@@ -13,8 +13,8 @@ export function createEvents(input) {
         allDay: event.allDay ?? (noTimePart(event.start) && noTimePart(event.end)),
         start: createDate(event.start),
         end: createDate(event.end),
-        completed: event.completed || false,
         kind: event.kind || '', // enum string such as court, consult, etc
+        status: event.status || '', // enum string such as completed, cancelled, tentative, etc
         content: event.content || '',
         url: event.url || '',
         titleHTML: event.titleHTML || '',
