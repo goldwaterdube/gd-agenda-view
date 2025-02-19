@@ -16,6 +16,7 @@
 
     export let chunk;
     export let longChunks = {};
+    export let date; // Date from the Day component
 
     let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor, eventClick, eventColor, eventContent,
         eventClassNames, eventDidMount, eventMouseEnter, eventMouseLeave, theme, slotHeight,
@@ -31,19 +32,23 @@
     let display;
     let onclick;
 
+    const normalizeToMidnight = date => new Date(date).setHours(0, 0, 0, 0)
+    const hasDatePassed = date => normalizeToMidnight(new Date()) > normalizeToMidnight(date)
+
     $: event = chunk.event;
 
     $: {
         display = event.display;
-        let completed = event.completed || false
 
         // Class & Style
         let bgColor = event.textColor || $_resTxtColor(event) || $eventTextColor;
         let txtColor = event.backgroundColor || $_resBgColor(event) || $eventBackgroundColor || $eventColor;
+
         style =
             `width: 100%;` + // ours aren't spanning so they all have the same width
             `height: ${$slotHeight}px;` + 
-            `margin-top: 1px;` // ours aren't nested so they all have the same height
+            `margin-top: 1px;` + // ours aren't nested so they all have the same height
+            (hasDatePassed(date) ? `text-decoration: line-through; text-decoration-thickness: 1.5px;` : '')
         ;
         if (bgColor) {
             style += `background-color:${bgColor};`;

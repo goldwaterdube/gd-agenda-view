@@ -45,12 +45,12 @@
     <!-- Drag, Resize & Select -->
     {#if iChunks[0] && datesEqual(iChunks[0].date, date)}
         <div class="{$theme.events} {$theme.preview}">
-            <Event chunk={iChunks[0]}/>
+            <Event chunk={iChunks[0]} {date}/>
         </div>
     {/if}
     <div class="{$theme.events}">
         {#each dayChunks as chunk, i (chunk.event)}
-            <Event {chunk} {longChunks} bind:this={refs[i]}/>
+            <Event {chunk} {longChunks} {date} bind:this={refs[i]}/>
         {/each}
     </div>
 </div>
