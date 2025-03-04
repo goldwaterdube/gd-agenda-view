@@ -32,8 +32,16 @@
     let display;
     let onclick;
 
-    const normalizeToMidnight = date => new Date(date).setHours(0, 0, 0, 0)
-    const hasDatePassed = date => normalizeToMidnight(new Date()) > normalizeToMidnight(date)
+    const normalizeToMidnight = date => {
+        const d = new Date(date)
+        // Use UTC methods to avoid timezone conversion
+        return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
+    }
+    const hasDatePassed = date => {
+        const today = normalizeToMidnight(new Date())
+        const compareDate = normalizeToMidnight(date)
+        return today.getTime() > compareDate.getTime()
+    }
 
     $: event = chunk.event;
 
