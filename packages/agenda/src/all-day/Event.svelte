@@ -19,7 +19,7 @@
     export let date; // Date from the Day component
 
     let {displayEventEnd, eventAllUpdated, eventBackgroundColor, eventTextColor, eventClick, eventColor, eventContent,
-        eventClassNames, eventDidMount, eventMouseEnter, eventMouseLeave, theme, slotHeight,
+        eventClassNames, eventDidMount, eventMouseEnter, eventMouseLeave, theme, slotHeight, allDayAutoCross,
         _view, _intlEventTime, _interaction, _iClasses, _resBgColor, _resTxtColor, _tasks} = getContext('state');
 
     let el;
@@ -56,7 +56,7 @@
             `width: 100%;` + // ours aren't spanning so they all have the same width
             `height: ${$slotHeight}px;` + 
             `margin-top: 1px;` + // ours aren't nested so they all have the same height
-            (hasDatePassed(date) ? `text-decoration: line-through; text-decoration-thickness: 1.5px;` : '')
+            ($allDayAutoCross && hasDatePassed(date) ? `text-decoration: line-through; text-decoration-thickness: 1.5px;` : '')
         ;
         if (bgColor) {
             style += `background-color:${bgColor};`;

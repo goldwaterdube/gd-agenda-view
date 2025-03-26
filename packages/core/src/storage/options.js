@@ -49,6 +49,7 @@ export function createOptions(plugins) {
         loading: undefined,
         locale: undefined,
         allDaySlotOnly: false,
+        allDayAutoCross: false,
         nowIndicator: false,
         selectable: false,
         scrollTime: '06:00:00',
