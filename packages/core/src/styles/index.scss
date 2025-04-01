@@ -193,15 +193,49 @@
       min-height: 13px;
     }
 
-    .ec-day::before {
+    .ec-content .ec-days {
+      position: relative;
+      overflow: hidden; /* Prevents brute-force lines from overflowing */
+    }
+    
+    .ec-content .ec-days .ec-lines::before {
       content: "";
       position: absolute;
       top: 13px; /* Start after the first line */
       left: 0;
       right: 0;
-      bottom: 0;
-      background-image: linear-gradient(to bottom, var(--ec-border-color) 1px, transparent 1px);
-      background-size: 100% 13px;
+      height: 1px; /* Just the line height */
+      border-top: 1px solid var(--ec-border-color);
+      /* Create crisp lines with brute force to avoid gradient blur */
+      /* 24 daily all-day events overkill and would break printing anyway */
+      box-shadow: 
+        0 13px 0 0 var(--ec-border-color),
+        0 26px 0 0 var(--ec-border-color),
+        0 39px 0 0 var(--ec-border-color),
+        0 52px 0 0 var(--ec-border-color),
+        0 65px 0 0 var(--ec-border-color),
+        0 78px 0 0 var(--ec-border-color),
+        0 91px 0 0 var(--ec-border-color),
+        0 104px 0 0 var(--ec-border-color),
+        0 117px 0 0 var(--ec-border-color),
+        0 130px 0 0 var(--ec-border-color),
+        0 143px 0 0 var(--ec-border-color),
+        0 156px 0 0 var(--ec-border-color),
+        0 169px 0 0 var(--ec-border-color),
+        0 182px 0 0 var(--ec-border-color),
+        0 195px 0 0 var(--ec-border-color),
+        0 208px 0 0 var(--ec-border-color),
+        0 221px 0 0 var(--ec-border-color),
+        0 234px 0 0 var(--ec-border-color),
+        0 247px 0 0 var(--ec-border-color),
+        0 260px 0 0 var(--ec-border-color),
+        0 273px 0 0 var(--ec-border-color),
+        0 286px 0 0 var(--ec-border-color),
+        0 299px 0 0 var(--ec-border-color);
+      transform: translateZ(0);
+      contain: layout;
+      z-index: 0;
+      pointer-events: none;
     }
   }
 
