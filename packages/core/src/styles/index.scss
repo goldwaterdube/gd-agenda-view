@@ -197,8 +197,27 @@
       position: relative;
       overflow: hidden; /* Prevents brute-force lines from overflowing */
     }
-    
-    .ec-content .ec-days .ec-lines::before {
+
+    .ec-day::before {
+      // gradient style (default)
+      content: "";
+      position: absolute;
+      top: 13px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(to bottom, var(--ec-border-color) 1px, transparent 1px);
+      background-size: 100% 13px;
+      display: block;
+    }
+  
+    // &.pixel-perfect .ec-day::before,
+    [data-pixel-perfect='true'] .ec-day::before {
+      display: none;
+    }
+  
+    // &.pixel-perfect .ec-lines::before,
+    [data-pixel-perfect='true'] .ec-lines::before {
       content: "";
       position: absolute;
       top: 13px; /* Start after the first line */
