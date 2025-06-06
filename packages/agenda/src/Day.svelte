@@ -44,6 +44,7 @@
                 }
             }
         }
+        chunks.sort((a, b) => a.event.start.getTime() - b.event.start.getTime());
         groupEventChunks(chunks);
     }
 
