@@ -1,6 +1,6 @@
 {
   "name": "gd-agenda-view",
-  "version": "2.6.23",
+  "version": "2.6.24",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
