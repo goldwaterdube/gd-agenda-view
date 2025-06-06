@@ -50,11 +50,18 @@ export function sortEventChunks(chunks) {
 }
 
 export function createEventContent(chunk, displayEventEnd, eventContent, theme, _intlEventTime, _view) {
+    let displayTimeForText = chunk.start;
+    // If the event's true start time is earlier than the chunk's visible start time (due to slotMinTime),
+    // use the event's true start time for display.
+    if (chunk.event && chunk.event.start && chunk.event.start.getTime() < chunk.start.getTime()) {
+        displayTimeForText = chunk.event.start;
+    }
+
     let timeText = _intlEventTime.formatRange(
-        chunk.start,
+        displayTimeForText,
         displayEventEnd && chunk.event.display !== 'pointer'
-            ? copyTime(cloneDate(chunk.start), chunk.end)
-            : chunk.start
+            ? copyTime(cloneDate(displayTimeForText), chunk.end)
+            : displayTimeForText
     );
     let resultContent;
 
@@ -75,16 +82,16 @@ export function createEventContent(chunk, displayEventEnd, eventContent, theme, 
                 break;
             case 'pointer':
                 domNodes = [createStyledElement('time', theme.eventTime, {
-                    html: formatTime(chunk.start),
+                    html: formatTime(displayTimeForText),
                     style: e.content?.time?.style || {},
-                    attributes: [['datetime', toISOString(chunk.start)]]
+                    attributes: [['datetime', toISOString(displayTimeForText)]]
                 })];
                 break;
             default:
                 const timeElement = e.hasOwnProperty('start') ? createStyledElement('time', theme.eventTime, {
-                    html: formatTime(chunk.start),
+                    html: formatTime(displayTimeForText),
                     style: e.content?.time?.style || {},
-                    attributes: [['datetime', toISOString(chunk.start)]]
+                    attributes: [['datetime', toISOString(displayTimeForText)]]
                 }) : '';
                 
                 // Create elements from content structure
