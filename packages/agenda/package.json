@@ -1,6 +1,6 @@
 {
   "name": "@gd-agenda-view/agenda",
-  "version": "2.6.24",
+  "version": "2.6.25",
   "title": "Event Calendar Agenda plugin",
   "description": "Classic AFG-style transparent view",
   "keywords": [
@@ -26,7 +26,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@gd-agenda-view/core": "~2.6.24",
+    "@gd-agenda-view/core": "~2.6.25",
     "svelte": "^4.2.8"
   }
 }
