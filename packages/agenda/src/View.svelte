@@ -7,7 +7,7 @@
     import Day from './Day.svelte';
     import Week from './all-day/Week.svelte';
 
-    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, allDaySlotOnly, _events} = getContext('state');
+    let {_viewDates, _intlDayHeader, _intlDayHeaderAL, allDaySlot, theme, allDaySlotOnly, companyName, _events} = getContext('state');
 
     const anniversaries = derived(_events, $events => 
         $events.filter(event => event.kind === 'anniversary')
@@ -81,7 +81,7 @@
                             <div use:setContent={formattedDate.weekNumber} class="ec-day-week-number"></div>
                         {/if}
                         {#if formattedDate.weekDay === 'Wednesday' || formattedDate.weekDay === 'Saturday'}
-                            <div use:setContent={"Goldwater, Dubé"} class="ec-day-gd-name"></div>
+                            <div use:setContent={$companyName} class="ec-day-company-name"></div>
                         {/if}
                     </div>
                 </div>
